@@ -1,7 +1,7 @@
 <h1 align="center"><br><br><a href="https://github.com/elixir-lang/ecto"><img alt="ember-changeset" src="assets/title.svg" width="350px"></a><br><br><br></h1>
 
 <a href="https://badge.fury.io/js/ember-changeset"><img alt="Download count all time" src="https://img.shields.io/npm/dt/ember-changeset.svg"></a>
-<a href="https://github.com/poteto/ember-changeset/actions/workflows/ci.yml?query=branch%3Amaster"><img alt="GitHub Actions Build Status" src="https://img.shields.io/github/workflow/status/poteto/ember-changeset/CI/master"></a>
+<a href="https://github.com/adopted-ember-addons/ember-changeset/actions/workflows/ci.yml?query=branch%3Amaster"><img alt="GitHub Actions Build Status" src="https://github.com/adopted-ember-addons/ember-changeset/actions/workflows/ci.yml/badge.svg"></a>
 <a href="https://badge.fury.io/js/ember-changeset"><img alt="npm version" src="https://badge.fury.io/js/ember-changeset.svg"></a>
 <a href="https://emberobserver.com/addons/ember-changeset"><img alt="Ember Observer Score" src="https://emberobserver.com/badges/ember-changeset.svg"></a>
 
@@ -15,7 +15,7 @@ ember install ember-changeset
 
 ## Updates
 
-We have released `v3.0.0`. See the CHANGELOG [here](https://github.com/poteto/ember-changeset/blob/master/CHANGELOG.md). This requires Ember >= 3.13 as the use of `@tracked` will help us monitor and propagate changes to the UI layer. If your app is < 3.13 or you need to support IE11, then you can install the 2.0 series `ember install ember-changeset@v2.2.4`.
+We have released `v3.0.0`. See the CHANGELOG [here](https://github.com/adopted-ember-addons/ember-changeset/blob/master/CHANGELOG.md). This requires Ember >= 3.13 as the use of `@tracked` will help us monitor and propagate changes to the UI layer. If your app is < 3.13 or you need to support IE11, then you can install the 2.0 series `ember install ember-changeset@v2.2.4`.
 
 Support for IE11 was dropped with the `v3.0.0` release given our ubiquitous use of Proxy.
 
@@ -29,7 +29,7 @@ Assuming a Data Down, Actions Up (DDAU) approach, a changeset is more appropriat
 
 `ember-changeset` only allows valid changes to be set, so your Objects will never become invalid (assuming you have 100% validation coverage). Additionally, this addon is designed to be un-opinionated about your choice of form and/or validation library, so you can easily integrate it into an existing solution.
 
-The simplest way to incorporate validations is to use [`ember-changeset-validations`](https://github.com/poteto/ember-changeset-validations/), a companion addon to this one. It has a simple mental model, and there are no Observers or CPs involved – just pure functions.
+The simplest way to incorporate validations is to use [`ember-changeset-validations`](https://github.com/adopted-ember-addons/ember-changeset-validations/), a companion addon to this one. It has a simple mental model, and there are no Observers or CPs involved – just pure functions.
 
 See also the [plugins](#plugins) section for addons that extend `ember-changeset`.
 
@@ -1036,7 +1036,7 @@ if (isChangeset(model)) {
 
 ## Plugins
 
-- [`ember-changeset-validations`](https://github.com/poteto/ember-changeset-validations) - Pure, functional validations without CPs or Observers
+- [`ember-changeset-validations`](https://github.com/adopted-ember-addons/ember-changeset-validations) - Pure, functional validations without CPs or Observers
 - [`ember-changeset-cp-validations`](https://github.com/offirgolan/ember-changeset-cp-validations) - Work with `ember-cp-validations`
 - [`ember-changeset-hofs`](https://github.com/nucleartide/ember-changeset-hofs) - Higher-order validation functions
 - [`ember-bootstrap-changeset-validations`](https://github.com/kaliber5/ember-bootstrap-changeset-validations) - Adds support for changeset validations to `ember-bootstrap`

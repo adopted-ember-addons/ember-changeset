@@ -35,8 +35,8 @@
     "contributors": "npx contributor-faces -e \"(*-bot|*\\[bot\\]|*-tomster|homu|bors)\"",
     "release": "release-it"
   },
-  "bugs": "https://github.com/poteto/ember-changeset/issues",
-  "homepage": "https://github.com/poteto/ember-changeset",
+  "bugs": "https://github.com/adopted-ember-addons/ember-changeset/issues",
+  "homepage": "https://github.com/adopted-ember-addons/ember-changeset",
   "dependencies": {
     "@embroider/macros": "^1.0.0",
     "@glimmer/tracking": "^1.0.4",

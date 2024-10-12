@@ -19,7 +19,7 @@
     "test": "tests"
   },
   "types": "./index.d.ts",
-  "repository": "https://github.com/poteto/ember-changeset",
+  "repository": "https://github.com/adopted-ember-addons/ember-changeset",
   "scripts": {
     "build": "ember build --environment=production",
     "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",

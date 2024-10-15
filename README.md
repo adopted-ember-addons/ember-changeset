@@ -5,6 +5,15 @@
 <a href="https://badge.fury.io/js/ember-changeset"><img alt="npm version" src="https://badge.fury.io/js/ember-changeset.svg"></a>
 <a href="https://emberobserver.com/addons/ember-changeset"><img alt="Ember Observer Score" src="https://emberobserver.com/badges/ember-changeset.svg"></a>
 
+## Compatibility
+
+* Ember.js v3.20 or above
+* Ember CLI v3.20 or above
+* Node.js v12 or above
+
+
+## Installation
+
 ```
 ember install ember-changeset
 ```
@@ -1143,24 +1152,11 @@ We're grateful to these wonderful contributors who've contributed to `ember-chan
 
 [//]: contributor-faces
 
-## Installation
+## Contributing
 
-- `git clone` this repository
-- `npm install`
+See the [Contributing](CONTRIBUTING.md) guide for details.
 
-## Running
 
-- `ember serve`
-- Visit your app at http://localhost:4200.
+## License
 
-## Running Tests
-
-- `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
-- `ember test`
-- `ember test --serve`
-
-## Building
-
-- `ember build`
-
-For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).
+This project is licensed under the [MIT License](LICENSE.md).

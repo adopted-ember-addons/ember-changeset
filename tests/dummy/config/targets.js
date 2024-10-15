@@ -1,6 +1,10 @@
 'use strict';
 
-const browsers = ['last 2 Chrome versions', 'last 2 Firefox versions', 'last 2 Safari versions'];
+const browsers = [
+  'last 2 Chrome versions',
+  'last 2 Firefox versions',
+  'last 2 Safari versions',
+];
 
 // Ember's browser support policy is changing, and IE11 support will end in
 // v4.0 onwards.

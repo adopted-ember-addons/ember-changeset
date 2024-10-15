@@ -8,7 +8,11 @@ import mergeDeep from './utils/merge-deep';
 import isObject from './utils/is-object';
 import { tracked } from '@glimmer/tracking';
 import { get as safeGet, set as safeSet } from '@ember/object';
-import { macroCondition, dependencySatisfies, importSync } from '@embroider/macros';
+import {
+  macroCondition,
+  dependencySatisfies,
+  importSync,
+} from '@embroider/macros';
 
 const CHANGES = '_changes';
 const PREVIOUS_CONTENT = '_previousContent';
@@ -103,7 +107,11 @@ export class EmberValidationChangeset extends ValidationChangeset {
     let content = this[CONTENT];
     let changes = this[CHANGES];
 
-    let pendingChanges = this.mergeDeep(Object.create(Object.getPrototypeOf(content)), content, { safeGet, safeSet });
+    let pendingChanges = this.mergeDeep(
+      Object.create(Object.getPrototypeOf(content)),
+      content,
+      { safeGet, safeSet },
+    );
 
     return this.mergeDeep(pendingChanges, changes, { safeGet, safeSet });
   }
@@ -202,7 +210,10 @@ export class EmberValidationChangeset extends ValidationChangeset {
  */
 export function changeset(obj) {
   assert('Underlying object for changeset is missing', Boolean(obj));
-  assert('Array is not a valid type to pass as the first argument to `changeset`', !Array.isArray(obj));
+  assert(
+    'Array is not a valid type to pass as the first argument to `changeset`',
+    !Array.isArray(obj),
+  );
 
   const c = new EmberValidationChangeset(obj);
   return c;

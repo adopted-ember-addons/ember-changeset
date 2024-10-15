@@ -12,12 +12,18 @@ module('Unit | Utility | merge deep', (hooks) => {
     let objB = { foo: new Change('bar'), zoo: 'doo' };
     let value = mergeDeep(objA, objB);
 
-    assert.deepEqual(value, { other: 'Ivan', foo: 'bar', zoo: 'doo' }, 'merges both values');
+    assert.deepEqual(
+      value,
+      { other: 'Ivan', foo: 'bar', zoo: 'doo' },
+      'merges both values',
+    );
   });
 
   test('works with arrays', function (assert) {
     const objA = { employees: ['Ivan', 'Jan'] };
-    const objB = { employees: { 0: new Change('Jull'), 1: new Change('Olafur') } };
+    const objB = {
+      employees: { 0: new Change('Jull'), 1: new Change('Olafur') },
+    };
     const value = mergeDeep(objA, objB);
 
     assert.deepEqual(value, { employees: ['Jull', 'Olafur'] });
@@ -44,7 +50,11 @@ module('Unit | Utility | merge deep', (hooks) => {
     let objB = { company: { employees: new Change(['Jull', 'Olafur']) } };
     let value = mergeDeep(objA, objB);
 
-    assert.deepEqual(value, { company: { employees: ['Jull', 'Olafur'] } }, 'has right employees');
+    assert.deepEqual(
+      value,
+      { company: { employees: ['Jull', 'Olafur'] } },
+      'has right employees',
+    );
   });
 
   test('it works with source null', async function (assert) {
@@ -52,12 +62,20 @@ module('Unit | Utility | merge deep', (hooks) => {
     let objB = { company: { employees: new Change(['Jull', 'Olafur']) } };
     let value = mergeDeep(objA, objB);
 
-    assert.deepEqual(value, { company: { employees: ['Jull', 'Olafur'] } }, 'has right employees');
+    assert.deepEqual(
+      value,
+      { company: { employees: ['Jull', 'Olafur'] } },
+      'has right employees',
+    );
 
     objB = { company: { employees: null } };
     value = mergeDeep(objA, objB);
 
-    assert.deepEqual(value, { company: { employees: null } }, 'has right employees');
+    assert.deepEqual(
+      value,
+      { company: { employees: null } },
+      'has right employees',
+    );
   });
 
   test('it works with unsafe properties', async function (assert) {
@@ -85,7 +103,11 @@ module('Unit | Utility | merge deep', (hooks) => {
 
     assert.strictEqual(value.boo, 'doo', 'unsafe plain property is merged');
     assert.strictEqual(value.other, 'Ivan', 'safe property is not touched');
-    assert.deepEqual(value.foo, { baz: 'bar' }, 'unsafe object property is merged');
+    assert.deepEqual(
+      value.foo,
+      { baz: 'bar' },
+      'unsafe object property is merged',
+    );
   });
 
   test('it merges with content as ember data object', async function (assert) {
@@ -107,7 +129,11 @@ module('Unit | Utility | merge deep', (hooks) => {
     let user2 = { profile: { firstName: new Change('Joejoe') } };
     mergeDeep(user, user2, { safeGet: get, safeSet: set });
 
-    assert.strictEqual(user.get('profile.firstName'), 'Joejoe', 'has first name');
+    assert.strictEqual(
+      user.get('profile.firstName'),
+      'Joejoe',
+      'has first name',
+    );
   });
 
   test('it does not work with ember-data objects', async function (assert) {
@@ -135,7 +161,7 @@ module('Unit | Utility | merge deep', (hooks) => {
       assert.strictEqual(
         message,
         'Unable to `mergeDeep` with your data. Are you trying to merge two ember-data objects? Please file an issue with ember-changeset.',
-        'throws message'
+        'throws message',
       );
     }
   });

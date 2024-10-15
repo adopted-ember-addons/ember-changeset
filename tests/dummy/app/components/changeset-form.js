@@ -21,8 +21,8 @@ let dummyValidations = {
           () => {
             resolve(ok);
           },
-          400
-        )
+          400,
+        ),
       );
     },
   },

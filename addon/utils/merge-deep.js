@@ -59,7 +59,10 @@ function propertyIsUnsafe(target, key, options) {
   return (
     propertyIsOnObject(target, key) && // Properties are safe to merge if they don't exist in the target yet,
     !(
-      (Object.prototype.hasOwnProperty.call(target, key) && Object.prototype.propertyIsEnumerable.call(target, key)) // unsafe if they exist up the prototype chain,
+      (
+        Object.prototype.hasOwnProperty.call(target, key) &&
+        Object.prototype.propertyIsEnumerable.call(target, key)
+      ) // unsafe if they exist up the prototype chain,
     )
   ); // and also unsafe if they're nonenumerable.
 }
@@ -112,8 +115,20 @@ function mergeTargetAndSource(target, source, options) {
     }
 
     // else safe key on object
-    if (propertyIsOnObject(target, key) && isMergeableObject(source[key]) && !isChange(source[key])) {
-      options.safeSet(target, key, mergeDeep(options.safeGet(target, key), options.safeGet(source, key), options));
+    if (
+      propertyIsOnObject(target, key) &&
+      isMergeableObject(source[key]) &&
+      !isChange(source[key])
+    ) {
+      options.safeSet(
+        target,
+        key,
+        mergeDeep(
+          options.safeGet(target, key),
+          options.safeGet(source, key),
+          options,
+        ),
+      );
     } else {
       let next = source[key];
       if (isChange(next)) {
@@ -156,7 +171,9 @@ export default function mergeDeep(target, source, options = {}) {
     let sourceIsArrayLike = isArrayObject(source);
 
     if (targetIsArray && sourceIsArrayLike) {
-      return objectToArray(mergeTargetAndSource(arrayToObject(target), source, options));
+      return objectToArray(
+        mergeTargetAndSource(arrayToObject(target), source, options),
+      );
     }
 
     return source;
@@ -177,7 +194,7 @@ export default function mergeDeep(target, source, options = {}) {
     } catch (e) {
       // this is very unlikely to be hit but lets throw an error otherwise
       throw new Error(
-        'Unable to `mergeDeep` with your data. Are you trying to merge two ember-data objects? Please file an issue with ember-changeset.'
+        'Unable to `mergeDeep` with your data. Are you trying to merge two ember-data objects? Please file an issue with ember-changeset.',
       );
     }
   }

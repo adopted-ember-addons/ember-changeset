@@ -9,7 +9,11 @@ import mergeDeep from './utils/merge-deep';
 import isObject from './utils/is-object';
 import { tracked } from '@glimmer/tracking';
 import { get as safeGet, set as safeSet } from '@ember/object';
-import { macroCondition, dependencySatisfies, importSync } from '@embroider/macros';
+import {
+  macroCondition,
+  dependencySatisfies,
+  importSync,
+} from '@embroider/macros';
 
 export { ValidatedChangeset };
 
@@ -107,7 +111,11 @@ export class EmberChangeset extends BufferedChangeset {
     let content = this[CONTENT];
     let changes = this[CHANGES];
 
-    let pendingChanges = this.mergeDeep(Object.create(Object.getPrototypeOf(content)), content, { safeGet, safeSet });
+    let pendingChanges = this.mergeDeep(
+      Object.create(Object.getPrototypeOf(content)),
+      content,
+      { safeGet, safeSet },
+    );
 
     return this.mergeDeep(pendingChanges, changes, { safeGet, safeSet });
   }
@@ -204,9 +212,17 @@ export class EmberChangeset extends BufferedChangeset {
 /**
  * Creates new changesets.
  */
-export function changeset(obj, validateFn = defaultValidatorFn, validationMap = {}, options = {}) {
+export function changeset(
+  obj,
+  validateFn = defaultValidatorFn,
+  validationMap = {},
+  options = {},
+) {
   assert('Underlying object for changeset is missing', Boolean(obj));
-  assert('Array is not a valid type to pass as the first argument to `changeset`', !Array.isArray(obj));
+  assert(
+    'Array is not a valid type to pass as the first argument to `changeset`',
+    !Array.isArray(obj),
+  );
 
   if (options.changeset) {
     return new options.changeset(obj, validateFn, validationMap, options);
@@ -220,7 +236,12 @@ export function changeset(obj, validateFn = defaultValidatorFn, validationMap = 
  * Creates new changesets.
  * @function Changeset
  */
-export function Changeset(obj, validateFn = defaultValidatorFn, validationMap = {}, options = {}) {
+export function Changeset(
+  obj,
+  validateFn = defaultValidatorFn,
+  validationMap = {},
+  options = {},
+) {
   const c = changeset(obj, validateFn, validationMap, options);
 
   return new Proxy(c, {
@@ -244,7 +265,12 @@ export default class ChangesetKlass {
    * @class ChangesetKlass
    * @constructor
    */
-  constructor(obj, validateFn = defaultValidatorFn, validationMap = {}, options = {}) {
+  constructor(
+    obj,
+    validateFn = defaultValidatorFn,
+    validationMap = {},
+    options = {},
+  ) {
     const c = changeset(obj, validateFn, validationMap, options);
 
     return new Proxy(c, {

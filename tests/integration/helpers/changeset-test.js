@@ -4,7 +4,14 @@ import { typeOf, isPresent } from '@ember/utils';
 import { Changeset } from 'ember-changeset';
 import { lookupValidator } from 'validated-changeset';
 import hbs from 'htmlbars-inline-precompile';
-import { render, find, fillIn, click, blur, triggerEvent } from '@ember/test-helpers';
+import {
+  render,
+  find,
+  fillIn,
+  click,
+  blur,
+  triggerEvent,
+} from '@ember/test-helpers';
 
 module('Integration | Helper | changeset', function (hooks) {
   setupRenderingTest(hooks);
@@ -85,11 +92,15 @@ module('Integration | Helper | changeset', function (hooks) {
 
   test('it accepts validation map with multiple validations', async function (assert) {
     function validateLength() {
-      return (key, newValue) => (isPresent(newValue) && newValue.length > 3) || 'too short';
+      return (key, newValue) =>
+        (isPresent(newValue) && newValue.length > 3) || 'too short';
     }
     function validateStartsUppercase() {
       return (key, newValue) =>
-        (isPresent(newValue) && newValue.charCodeAt(0) > 65 && newValue.charCodeAt(0) < 90) || 'not upper case';
+        (isPresent(newValue) &&
+          newValue.charCodeAt(0) > 65 &&
+          newValue.charCodeAt(0) < 90) ||
+        'not upper case';
     }
     let validations = {
       firstName: [validateLength(), validateStartsUppercase()],
@@ -121,11 +132,15 @@ module('Integration | Helper | changeset', function (hooks) {
 
   test('it accepts validation map with multiple validations with promises', async function (assert) {
     function validateLength() {
-      return (key, newValue) => (isPresent(newValue) && Promise.resolve(newValue.length > 3)) || 'too short';
+      return (key, newValue) =>
+        (isPresent(newValue) && Promise.resolve(newValue.length > 3)) ||
+        'too short';
     }
     function validateStartsUppercase() {
       return (key, newValue) =>
-        (isPresent(newValue) && newValue.charCodeAt(0) > 65 && newValue.charCodeAt(0) < 90) ||
+        (isPresent(newValue) &&
+          newValue.charCodeAt(0) > 65 &&
+          newValue.charCodeAt(0) < 90) ||
         Promise.resolve('not upper case');
     }
     let validations = {
@@ -258,19 +273,47 @@ module('Integration | Helper | changeset', function (hooks) {
     `);
 
     assert.dom('h1').hasText('Jim Bob', 'precondition');
-    assert.strictEqual(changeset.get('person.firstName'), 'Jim', 'precondition firstName');
-    assert.strictEqual(changeset.get('person.lastName'), 'Bob', 'precondition lastName');
+    assert.strictEqual(
+      changeset.get('person.firstName'),
+      'Jim',
+      'precondition firstName',
+    );
+    assert.strictEqual(
+      changeset.get('person.lastName'),
+      'Bob',
+      'precondition lastName',
+    );
     await fillIn('#first-name', 'foo');
     await fillIn('#last-name', 'bar');
-    assert.strictEqual(changeset.get('person.firstName'), 'foo', 'should update observable value');
-    assert.strictEqual(changeset.get('person.lastName'), 'bar', 'should update observable value lastName');
-    assert.strictEqual(changeset.get('person').firstName, 'foo', 'should work with top level key');
-    assert.strictEqual(changeset.get('person').lastName, 'bar', 'should work with top level key last name');
-    assert.strictEqual(changeset.person.firstName, 'foo', 'should work with top level key');
+    assert.strictEqual(
+      changeset.get('person.firstName'),
+      'foo',
+      'should update observable value',
+    );
+    assert.strictEqual(
+      changeset.get('person.lastName'),
+      'bar',
+      'should update observable value lastName',
+    );
+    assert.strictEqual(
+      changeset.get('person').firstName,
+      'foo',
+      'should work with top level key',
+    );
+    assert.strictEqual(
+      changeset.get('person').lastName,
+      'bar',
+      'should work with top level key last name',
+    );
+    assert.strictEqual(
+      changeset.person.firstName,
+      'foo',
+      'should work with top level key',
+    );
     assert.strictEqual(
       changeset.get('_content').person.firstName,
       'Jim',
-      "keeps value on model as execute hasn't been called"
+      "keeps value on model as execute hasn't been called",
     );
     assert.dom('h1').hasText('foo bar', 'should update observable value');
   });
@@ -301,7 +344,8 @@ module('Integration | Helper | changeset', function (hooks) {
 
   test('nested key error clears after entering valid input', async function (assert) {
     let data = { person: { firstName: 'Jim' } };
-    let validator = ({ newValue }) => isPresent(newValue) || 'need a first name';
+    let validator = ({ newValue }) =>
+      isPresent(newValue) || 'need a first name';
     let c = Changeset(data, validator);
     this.c = c;
     this.mutValue = (path, evt) => (this.c[path] = evt.target.value);
@@ -356,7 +400,8 @@ module('Integration | Helper | changeset', function (hooks) {
     assert.expect(3);
 
     let data = { person: { name: { parts: { first: 'Jim' } } } };
-    let validator = ({ newValue }) => isPresent(newValue) || 'need a first name';
+    let validator = ({ newValue }) =>
+      isPresent(newValue) || 'need a first name';
     let c = Changeset(data, validator);
     this.c = c;
     this.mutValue = (path, evt) => (this.c[path] = evt.target.value);
@@ -425,7 +470,11 @@ module('Integration | Helper | changeset', function (hooks) {
         return value % 2 !== 0 || 'must be odd';
       },
     };
-    let changeset = Changeset({ even: 4, odd: 4 }, lookupValidator(dummyValidations), dummyValidations);
+    let changeset = Changeset(
+      { even: 4, odd: 4 },
+      lookupValidator(dummyValidations),
+      dummyValidations,
+    );
     this.addEven = (changeset, evt) => {
       changeset.even = evt.target.value;
     };
@@ -433,7 +482,8 @@ module('Integration | Helper | changeset', function (hooks) {
       changeset.odd = evt.target.value;
     };
     this.changeset = changeset;
-    this.validateProperty = (changeset, property) => changeset.validate(property);
+    this.validateProperty = (changeset, property) =>
+      changeset.validate(property);
     await render(hbs`
       <fieldset class="even">
         <label for="even">Even Number</label>
@@ -466,8 +516,12 @@ module('Integration | Helper | changeset', function (hooks) {
 
     await fillIn('#even', '9');
     await triggerEvent('#odd', 'blur');
-    assert.dom('small.even').hasText('must be even', 'should display error message');
-    assert.dom('small.odd').hasText('must be odd', 'should display error message');
+    assert
+      .dom('small.even')
+      .hasText('must be even', 'should display error message');
+    assert
+      .dom('small.odd')
+      .hasText('must be odd', 'should display error message');
     assert.dom('#even').hasValue('9', 'should not rollback');
     assert.dom('code.even').hasText('9', 'should not rollback');
     assert.dom('#odd').hasValue('4', 'should not rollback');
@@ -476,8 +530,12 @@ module('Integration | Helper | changeset', function (hooks) {
     // go out of sync
     await fillIn('#odd', '10');
     await blur('#odd');
-    assert.dom('small.even').hasText('must be even', 'should display error message');
-    assert.dom('small.odd').hasText('must be odd', 'should display error message');
+    assert
+      .dom('small.even')
+      .hasText('must be even', 'should display error message');
+    assert
+      .dom('small.odd')
+      .hasText('must be odd', 'should display error message');
     assert.dom('#odd').hasValue('10', 'should not rollback');
     assert.dom('code.odd').hasText('10', 'should not rollback');
   });

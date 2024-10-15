@@ -1,5 +1,9 @@
 /* eslint-disable ember/no-computed-properties-in-native-classes */
-import { Changeset, EmberChangeset, Changeset as ChangesetFactory } from 'ember-changeset';
+import {
+  Changeset,
+  EmberChangeset,
+  Changeset as ChangesetFactory,
+} from 'ember-changeset';
 import { settled } from '@ember/test-helpers';
 import { module, test, todo } from 'qunit';
 import { setupTest } from 'ember-qunit';
@@ -28,8 +32,17 @@ let dummyValidations = {
   password(value) {
     return value || ['foo', 'bar'];
   },
-  passwordConfirmation(newValue, _oldValue, { password: changedPassword }, { password }) {
-    return (isPresent(newValue) && (changedPassword === newValue || password === newValue)) || "password doesn't match";
+  passwordConfirmation(
+    newValue,
+    _oldValue,
+    { password: changedPassword },
+    { password },
+  ) {
+    return (
+      (isPresent(newValue) &&
+        (changedPassword === newValue || password === newValue)) ||
+      "password doesn't match"
+    );
   },
   async(value) {
     return Promise.resolve(value);
@@ -97,12 +110,36 @@ module('Unit | Utility | changeset', function (hooks) {
     let expectedResult = { name: { validation: 'too short', value: 'a' } };
     dummyChangeset.set('name', 'a');
 
-    assert.deepEqual(classToObj(dummyChangeset.error), expectedResult, 'should return error object');
-    assert.deepEqual(classToObj(dummyChangeset.get('error').name), expectedResult.name, 'should return nested error');
-    assert.deepEqual(classToObj(dummyChangeset.get('error.name')), expectedResult.name, 'should return nested error');
-    assert.deepEqual(dummyChangeset.change, { name: 'a' }, 'should return change object');
-    assert.deepEqual(dummyChangeset.get('change.name'), 'a', 'should return nested change');
-    assert.deepEqual(dummyChangeset.get('change').name, 'a', 'should return nested change');
+    assert.deepEqual(
+      classToObj(dummyChangeset.error),
+      expectedResult,
+      'should return error object',
+    );
+    assert.deepEqual(
+      classToObj(dummyChangeset.get('error').name),
+      expectedResult.name,
+      'should return nested error',
+    );
+    assert.deepEqual(
+      classToObj(dummyChangeset.get('error.name')),
+      expectedResult.name,
+      'should return nested error',
+    );
+    assert.deepEqual(
+      dummyChangeset.change,
+      { name: 'a' },
+      'should return change object',
+    );
+    assert.deepEqual(
+      dummyChangeset.get('change.name'),
+      'a',
+      'should return nested change',
+    );
+    assert.deepEqual(
+      dummyChangeset.get('change').name,
+      'a',
+      'should return nested change',
+    );
   });
 
   test('can get nested values in the error object', function (assert) {
@@ -113,7 +150,7 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.deepEqual(
       classToObj(dummyChangeset.get('error.name')),
       expectedResult,
-      'should return error object for `name` key'
+      'should return error object for `name` key',
     );
   });
 
@@ -126,9 +163,17 @@ module('Unit | Utility | changeset', function (hooks) {
     let expectedResult = { name: 'a' };
     dummyChangeset.set('name', 'a');
 
-    assert.deepEqual(get(dummyChangeset, 'change'), expectedResult, 'should return changes object');
+    assert.deepEqual(
+      get(dummyChangeset, 'change'),
+      expectedResult,
+      'should return changes object',
+    );
     assert.deepEqual(dummyChangeset.name, 'a', 'should return new value');
-    assert.deepEqual(dummyModel.name, undefined, 'should return original value');
+    assert.deepEqual(
+      dummyModel.name,
+      undefined,
+      'should return original value',
+    );
   });
 
   test('#change supports `undefined`', async function (assert) {
@@ -140,7 +185,7 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.deepEqual(
       get(dummyChangeset, 'change'),
       expectedResult,
-      'property changed to `undefined` should be included in change object'
+      'property changed to `undefined` should be included in change object',
     );
   });
 
@@ -152,8 +197,16 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('name', 'a');
     dummyChangeset.set('exampleArray', newArray);
 
-    assert.deepEqual(get(dummyChangeset, 'change'), expectedResult, 'should return new changes');
-    assert.deepEqual(dummyChangeset.exampleArray, expectedResult.exampleArray, 'should return changes object');
+    assert.deepEqual(
+      get(dummyChangeset, 'change'),
+      expectedResult,
+      'should return new changes',
+    );
+    assert.deepEqual(
+      dummyChangeset.exampleArray,
+      expectedResult.exampleArray,
+      'should return changes object',
+    );
     assert.deepEqual(dummyChangeset.name, 'a', 'should return new value');
     assert.deepEqual(dummyModel.exampleArray, [], 'should keep original array');
     assert.deepEqual(dummyModel.name, undefined, 'should keep original array');
@@ -167,9 +220,21 @@ module('Unit | Utility | changeset', function (hooks) {
     let expectedResult = [{ key: 'name', validation: 'too short', value: 'a' }];
     dummyChangeset.set('name', 'a');
 
-    assert.deepEqual(dummyChangeset.errors, expectedResult, 'should return errors object');
-    assert.deepEqual(dummyChangeset.get('errors'), expectedResult, 'should return nested errors');
-    assert.deepEqual(dummyChangeset.change, { name: 'a' }, 'should return change object');
+    assert.deepEqual(
+      dummyChangeset.errors,
+      expectedResult,
+      'should return errors object',
+    );
+    assert.deepEqual(
+      dummyChangeset.get('errors'),
+      expectedResult,
+      'should return nested errors',
+    );
+    assert.deepEqual(
+      dummyChangeset.change,
+      { name: 'a' },
+      'should return change object',
+    );
   });
 
   test('can get nested values in the errors object', function (assert) {
@@ -185,7 +250,7 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.deepEqual(
       dummyChangeset.get('errors'),
       expectedErrors,
-      'should return errors object for `org.usa.ny` key and `name` key'
+      'should return errors object for `org.usa.ny` key and `name` key',
     );
   });
 
@@ -200,7 +265,11 @@ module('Unit | Utility | changeset', function (hooks) {
   test('data reads the changeset CONTENT', async function (assert) {
     let dummyChangeset = Changeset(dummyModel);
 
-    assert.strictEqual(get(dummyChangeset, 'data'), dummyModel, 'should return data');
+    assert.strictEqual(
+      get(dummyChangeset, 'data'),
+      dummyModel,
+      'should return data',
+    );
   });
 
   test('data is readonly', async function (assert) {
@@ -212,8 +281,10 @@ module('Unit | Utility | changeset', function (hooks) {
       set(dummyChangeset, 'data', { foo: 'bar' });
     } catch ({ message }) {
       assert.throws(
-        ({ message }) => message === "Cannot set read-only property 'data' on object: changeset:[object Object]",
-        'should throw error'
+        ({ message }) =>
+          message ===
+          "Cannot set read-only property 'data' on object: changeset:[object Object]",
+        'should throw error',
       );
     }
   });
@@ -268,14 +339,18 @@ module('Unit | Utility | changeset', function (hooks) {
    * #isDirty
    */
   test('changeset accepts changeset keys', async function (assert) {
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, null, { changesetKeys: ['name'] });
+    let dummyChangeset = Changeset(dummyModel, dummyValidator, null, {
+      changesetKeys: ['name'],
+    });
     dummyChangeset.set('_somePrivate', 'a');
 
     assert.false(dummyChangeset.isDirty, 'changeset is not dirty');
   });
 
   test('changeset accepts changeset keys without validations', async function (assert) {
-    let dummyChangeset = Changeset(dummyModel, null, null, { changesetKeys: ['name'] });
+    let dummyChangeset = Changeset(dummyModel, null, null, {
+      changesetKeys: ['name'],
+    });
     dummyChangeset.set('_somePrivate', 'a');
 
     assert.false(dummyChangeset.isDirty, 'changeset is not dirty');
@@ -296,7 +371,10 @@ module('Unit | Utility | changeset', function (hooks) {
       // double
       @computed
       get changesets() {
-        let arr = [Changeset(dummyModel, dummyValidator), Changeset(dummyModel, dummyValidator)];
+        let arr = [
+          Changeset(dummyModel, dummyValidator),
+          Changeset(dummyModel, dummyValidator),
+        ];
         return arr;
       }
 
@@ -312,13 +390,21 @@ module('Unit | Utility | changeset', function (hooks) {
     let model = Model.create();
 
     assert.notOk(get(model, 'hasDirtyChangesets'), 'no dirty changesets');
-    assert.strictEqual(model.dirtyChangesets.length, 0, 'has 0 dirty changesets');
+    assert.strictEqual(
+      model.dirtyChangesets.length,
+      0,
+      'has 0 dirty changesets',
+    );
     assert.false(get(model, 'isChangesetDirty'), 'changeset not dirty');
 
     let changesets = get(model, 'changesets');
 
     changesets[0].set('name', 'new name');
-    assert.strictEqual(model.dirtyChangesets.length, 1, 'has one dirty changesets');
+    assert.strictEqual(
+      model.dirtyChangesets.length,
+      1,
+      'has one dirty changesets',
+    );
     assert.ok(get(model, 'hasDirtyChangesets'), 'has dirty changesets');
 
     let changeset = get(model, 'changeset');
@@ -389,7 +475,10 @@ module('Unit | Utility | changeset', function (hooks) {
 
     newValue = c.get('startDate');
     assert.strictEqual(newValue.date, d, 'correct date on moment object');
-    assert.notOk(newValue._isUTC, 'does not have changes from original instance');
+    assert.notOk(
+      newValue._isUTC,
+      'does not have changes from original instance',
+    );
   });
 
   test('#get merges sibling keys', async function (assert) {
@@ -452,12 +541,28 @@ module('Unit | Utility | changeset', function (hooks) {
     let dummyChangeset = Changeset(dummyModel);
     set(dummyChangeset, 'name', 'Burdger');
 
-    assert.strictEqual(get(dummyChangeset, 'name'), 'Burdger', 'should proxy name to change');
-    assert.deepEqual(get(dummyChangeset, 'creds'), ['burgers'], 'should proxy creds to change');
+    assert.strictEqual(
+      get(dummyChangeset, 'name'),
+      'Burdger',
+      'should proxy name to change',
+    );
+    assert.deepEqual(
+      get(dummyChangeset, 'creds'),
+      ['burgers'],
+      'should proxy creds to change',
+    );
 
     set(dummyChangeset, 'creds', ['fries']);
-    assert.strictEqual(get(dummyChangeset, 'name'), 'Burdger', 'should proxy name to change');
-    assert.deepEqual(get(dummyChangeset, 'creds'), ['fries'], 'should proxy creds to change after change');
+    assert.strictEqual(
+      get(dummyChangeset, 'name'),
+      'Burdger',
+      'should proxy name to change',
+    );
+    assert.deepEqual(
+      get(dummyChangeset, 'creds'),
+      ['fries'],
+      'should proxy creds to change after change',
+    );
   });
 
   test('nested objects will return correct values', async function (assert) {
@@ -471,9 +576,17 @@ module('Unit | Utility | changeset', function (hooks) {
     });
 
     let dummyChangeset = Changeset(dummyModel, dummyValidator);
-    assert.strictEqual(dummyChangeset.get('org.asia.sg'), '_initial', 'returns initial value');
+    assert.strictEqual(
+      dummyChangeset.get('org.asia.sg'),
+      '_initial',
+      'returns initial value',
+    );
     dummyChangeset.set('org.asia.sg', 'sg');
-    assert.strictEqual(dummyChangeset.get('org.asia.sg'), 'sg', 'returns newly set value');
+    assert.strictEqual(
+      dummyChangeset.get('org.asia.sg'),
+      'sg',
+      'returns newly set value',
+    );
   });
 
   test('nested objects can contain arrays', async function (assert) {
@@ -488,39 +601,53 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.deepEqual(
       dummyModel.get('contact.emails'),
       ['bob@email.com', 'the_bob@email.com'],
-      'returns initial model value'
+      'returns initial model value',
     );
     let dummyChangeset = Changeset(dummyModel, dummyValidator);
-    assert.strictEqual(dummyChangeset.get('name'), 'Bob', 'returns changeset initial value');
+    assert.strictEqual(
+      dummyChangeset.get('name'),
+      'Bob',
+      'returns changeset initial value',
+    );
     assert.deepEqual(
       dummyChangeset.get('contact.emails'),
       ['bob@email.com', 'the_bob@email.com'],
-      'returns changeset initial value'
+      'returns changeset initial value',
     );
 
-    dummyChangeset.set('contact.emails', ['fred@email.com', 'the_fred@email.com']);
+    dummyChangeset.set('contact.emails', [
+      'fred@email.com',
+      'the_fred@email.com',
+    ]);
 
     assert.deepEqual(
       dummyChangeset.get('contact.emails'),
       ['fred@email.com', 'the_fred@email.com'],
-      'returns changeset changed value'
+      'returns changeset changed value',
     );
 
     dummyChangeset.rollback();
     assert.deepEqual(
       dummyChangeset.get('contact.emails'),
       ['bob@email.com', 'the_bob@email.com'],
-      'returns changeset rolledback value'
+      'returns changeset rolledback value',
     );
-    dummyChangeset.set('contact.emails', ['fred@email.com', 'the_fred@email.com']);
+    dummyChangeset.set('contact.emails', [
+      'fred@email.com',
+      'the_fred@email.com',
+    ]);
     assert.deepEqual(
       dummyChangeset.get('contact.emails'),
       ['fred@email.com', 'the_fred@email.com'],
-      'returns changeset changed value'
+      'returns changeset changed value',
     );
 
     dummyChangeset.execute();
-    assert.deepEqual(dummyModel.contact.emails, ['fred@email.com', 'the_fred@email.com'], 'returns model saved value');
+    assert.deepEqual(
+      dummyModel.contact.emails,
+      ['fred@email.com', 'the_fred@email.com'],
+      'returns model saved value',
+    );
   });
 
   test('#getted Object proxies to underlying method', async function (assert) {
@@ -548,7 +675,11 @@ module('Unit | Utility | changeset', function (hooks) {
       let c = Changeset(model);
       let actual = c.get('foo.bar.dog').bark();
       let expectedResult = "woof i'm a shiba inu, wow";
-      assert.strictEqual(actual, expectedResult, 'should proxy to underlying method');
+      assert.strictEqual(
+        actual,
+        expectedResult,
+        'should proxy to underlying method',
+      );
     }
 
     {
@@ -562,7 +693,11 @@ module('Unit | Utility | changeset', function (hooks) {
       let c = Changeset(model);
       let actual = get(c, 'foo.bar.dog');
       let expectedResult = get(model, 'foo.bar.dog');
-      assert.strictEqual(actual, expectedResult, 'you dont have to use .content');
+      assert.strictEqual(
+        actual,
+        expectedResult,
+        'you dont have to use .content',
+      );
     }
   });
 
@@ -588,7 +723,11 @@ module('Unit | Utility | changeset', function (hooks) {
     let changes = get(dummyChangeset, 'changes');
 
     assert.strictEqual(dummyModel.name, undefined, 'should keep change');
-    assert.strictEqual(dummyChangeset.get('name'), 'foo', 'should have new change');
+    assert.strictEqual(
+      dummyChangeset.get('name'),
+      'foo',
+      'should have new change',
+    );
 
     assert.deepEqual(changes, expectedChanges, 'should add change');
   });
@@ -599,7 +738,11 @@ module('Unit | Utility | changeset', function (hooks) {
     set(dummyChangeset, 'name', 'foo');
 
     assert.strictEqual(dummyModel.name, undefined, 'should keep change');
-    assert.strictEqual(dummyChangeset.get('name'), 'foo', 'should have new change');
+    assert.strictEqual(
+      dummyChangeset.get('name'),
+      'foo',
+      'should have new change',
+    );
 
     let changes = get(dummyChangeset, 'changes');
     assert.deepEqual(changes, expectedChanges, 'should add change');
@@ -607,7 +750,11 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.execute();
 
     assert.strictEqual(dummyModel.name, 'foo', 'should be applied');
-    assert.strictEqual(dummyChangeset.get('name'), 'foo', 'should have new change');
+    assert.strictEqual(
+      dummyChangeset.get('name'),
+      'foo',
+      'should have new change',
+    );
   });
 
   test('#set Ember.set works for nested', async function (assert) {
@@ -615,10 +762,18 @@ module('Unit | Utility | changeset', function (hooks) {
     let dummyChangeset = Changeset(dummyModel);
     set(dummyChangeset, 'name.short', 'boo');
 
-    assert.strictEqual(dummyChangeset.name.short, 'boo', 'should have new change');
+    assert.strictEqual(
+      dummyChangeset.name.short,
+      'boo',
+      'should have new change',
+    );
 
     let changes = get(dummyChangeset, 'changes');
-    assert.deepEqual(changes, [{ key: 'name.short', value: 'boo' }], 'changes with nested key Ember.set');
+    assert.deepEqual(
+      changes,
+      [{ key: 'name.short', value: 'boo' }],
+      'changes with nested key Ember.set',
+    );
 
     dummyChangeset.execute();
 
@@ -656,8 +811,16 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('dateOfBirth', d);
     let changes = get(dummyChangeset, 'changes');
 
-    assert.strictEqual(dummyModel.dateOfBirth, undefined, 'should not have value');
-    assert.deepEqual(dummyChangeset.get('dateOfBirth'), d, 'should have new change');
+    assert.strictEqual(
+      dummyModel.dateOfBirth,
+      undefined,
+      'should not have value',
+    );
+    assert.deepEqual(
+      dummyChangeset.get('dateOfBirth'),
+      d,
+      'should have new change',
+    );
 
     assert.deepEqual(changes, expectedChanges, 'should add change');
   });
@@ -671,7 +834,11 @@ module('Unit | Utility | changeset', function (hooks) {
     let changes = get(dummyChangeset, 'changes');
 
     assert.ok(model.dateOfBirth, 'model has original date');
-    assert.strictEqual(dummyChangeset.get('dateOfBirth'), d, 'should have new change');
+    assert.strictEqual(
+      dummyChangeset.get('dateOfBirth'),
+      d,
+      'should have new change',
+    );
 
     assert.deepEqual(changes, expectedChanges, 'should add change');
   });
@@ -703,7 +870,11 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.strictEqual(c.org, 'foo', 'should have new change');
 
     let changes = get(c, 'changes');
-    assert.deepEqual(changes, [{ key: 'org', value: 'foo' }], 'should add change');
+    assert.deepEqual(
+      changes,
+      [{ key: 'org', value: 'foo' }],
+      'should add change',
+    );
   });
 
   test('#set adds a change if value is an object', async function (assert) {
@@ -764,8 +935,16 @@ module('Unit | Utility | changeset', function (hooks) {
     let dummyChangeset = Changeset(model);
 
     dummyChangeset.set('name', undefined);
-    assert.strictEqual(get(dummyChangeset, 'name'), undefined, 'should return changed value');
-    assert.deepEqual(get(dummyChangeset, 'changes'), [{ key: 'name', value: undefined }], 'should add change');
+    assert.strictEqual(
+      get(dummyChangeset, 'name'),
+      undefined,
+      'should return changed value',
+    );
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      [{ key: 'name', value: undefined }],
+      'should add change',
+    );
   });
 
   test('#set does not add a change if new value equals old value', async function (assert) {
@@ -773,7 +952,11 @@ module('Unit | Utility | changeset', function (hooks) {
     let dummyChangeset = Changeset(model);
 
     dummyChangeset.set('name', 'foo');
-    assert.deepEqual(get(dummyChangeset, 'changes'), [], 'change is not added if new value equals old value');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      [],
+      'change is not added if new value equals old value',
+    );
   });
 
   test('#set does not add a change if new value equals old value and `skipValidate` is true', async function (assert) {
@@ -781,7 +964,11 @@ module('Unit | Utility | changeset', function (hooks) {
     let dummyChangeset = Changeset(model, {}, null, { skipValidate: true });
 
     dummyChangeset.set('name', 'foo');
-    assert.deepEqual(get(dummyChangeset, 'changes'), [], 'change is not added if new value equals old value');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      [],
+      'change is not added if new value equals old value',
+    );
   });
 
   test('#set removes a change if set back to original value', async function (assert) {
@@ -792,11 +979,15 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.deepEqual(
       get(dummyChangeset, 'changes'),
       [{ key: 'name', value: 'bar' }],
-      'change is added when value is different than original value'
+      'change is added when value is different than original value',
     );
 
     dummyChangeset.set('name', 'foo');
-    assert.deepEqual(get(dummyChangeset, 'changes'), [], 'change is removed when new value matches original value');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      [],
+      'change is removed when new value matches original value',
+    );
   });
 
   test('#set removes a change if set back to original value when obj is ProxyObject', async function (assert) {
@@ -807,11 +998,15 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.deepEqual(
       get(dummyChangeset, 'changes'),
       [{ key: 'name', value: 'bar' }],
-      'change is added when value is different than original value'
+      'change is added when value is different than original value',
     );
 
     dummyChangeset.set('name', 'foo');
-    assert.deepEqual(get(dummyChangeset, 'changes'), [], 'change is removed when new value matches original value');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      [],
+      'change is removed when new value matches original value',
+    );
   });
 
   test('#set does add a change if invalid', async function (assert) {
@@ -840,7 +1035,9 @@ module('Unit | Utility | changeset', function (hooks) {
   test('#set adds the change without validation if `skipValidate` option is set', async function (assert) {
     let expectedChanges = [{ key: 'password', value: false }];
 
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, null, { skipValidate: true });
+    let dummyChangeset = Changeset(dummyModel, dummyValidator, null, {
+      skipValidate: true,
+    });
     dummyChangeset.set('password', false);
     let changes = get(dummyChangeset, 'changes');
 
@@ -874,14 +1071,24 @@ module('Unit | Utility | changeset', function (hooks) {
     let dummyChangeset = Changeset(model);
 
     let options = dummyChangeset.options;
-    options = options.filter((o, i) => (i === options.indexOf('test2') ? false : true));
+    options = options.filter((o, i) =>
+      i === options.indexOf('test2') ? false : true,
+    );
     dummyChangeset.set('options', [...options]);
 
-    assert.deepEqual(model.options, ['test1', 'test2', 'test3'], 'should keep original');
+    assert.deepEqual(
+      model.options,
+      ['test1', 'test2', 'test3'],
+      'should keep original',
+    );
     let expectedChanges = [{ key: 'options', value: ['test1', 'test3'] }];
     let changes = get(dummyChangeset, 'changes');
     assert.deepEqual(changes, expectedChanges, 'should add change');
-    assert.deepEqual(dummyChangeset.options, expectedChanges[0].value, 'should have new values');
+    assert.deepEqual(
+      dummyChangeset.options,
+      expectedChanges[0].value,
+      'should have new values',
+    );
   });
 
   test('#set Ember.set with Object actually does work TWICE for nested', async function (assert) {
@@ -891,21 +1098,53 @@ module('Unit | Utility | changeset', function (hooks) {
     let dummyChangeset = Changeset(dummyModel);
     set(dummyChangeset, 'name.title', title1);
 
-    assert.strictEqual(get(dummyModel, 'name.title.id'), undefined, 'should not have new change');
-    assert.strictEqual(dummyChangeset.name.title.id, 'Mr', 'should have new change');
-    assert.strictEqual(dummyChangeset.get('name.title.id'), 'Mr', 'should have new change using get');
+    assert.strictEqual(
+      get(dummyModel, 'name.title.id'),
+      undefined,
+      'should not have new change',
+    );
+    assert.strictEqual(
+      dummyChangeset.name.title.id,
+      'Mr',
+      'should have new change',
+    );
+    assert.strictEqual(
+      dummyChangeset.get('name.title.id'),
+      'Mr',
+      'should have new change using get',
+    );
 
     let changes = dummyChangeset.changes;
-    assert.deepEqual(changes, [{ key: 'name.title', value: title1 }], 'changes with nested key Ember.set');
+    assert.deepEqual(
+      changes,
+      [{ key: 'name.title', value: title1 }],
+      'changes with nested key Ember.set',
+    );
 
     set(dummyChangeset, 'name.title', title2);
 
-    assert.strictEqual(get(dummyModel, 'name.title.id'), undefined, 'should not have new change');
-    assert.strictEqual(dummyChangeset.name.title.id, 'Mrs', 'should have new change');
-    assert.strictEqual(dummyChangeset.get('name.title.id'), 'Mrs', 'should have new change using get');
+    assert.strictEqual(
+      get(dummyModel, 'name.title.id'),
+      undefined,
+      'should not have new change',
+    );
+    assert.strictEqual(
+      dummyChangeset.name.title.id,
+      'Mrs',
+      'should have new change',
+    );
+    assert.strictEqual(
+      dummyChangeset.get('name.title.id'),
+      'Mrs',
+      'should have new change using get',
+    );
 
     changes = dummyChangeset.changes;
-    assert.deepEqual(changes, [{ key: 'name.title', value: title2 }], 'changes with nested key Ember.set');
+    assert.deepEqual(
+      changes,
+      [{ key: 'name.title', value: title2 }],
+      'changes with nested key Ember.set',
+    );
 
     dummyChangeset.execute();
 
@@ -929,27 +1168,71 @@ module('Unit | Utility | changeset', function (hooks) {
 
     set(dummyChangeset, 'profile.pet', pet1);
 
-    assert.strictEqual(dummyChangeset.profile.pet.breed, 'jazzy', 'should have change');
-    assert.strictEqual(dummyChangeset.get('profile.pet.breed'), 'jazzy', 'should have change using get');
-    assert.strictEqual(dummyChangeset.get('profile.pet').breed, 'jazzy', 'should have change using get');
-    assert.strictEqual(dummyChangeset.get('profile').pet.breed, 'jazzy', 'should have change using get');
+    assert.strictEqual(
+      dummyChangeset.profile.pet.breed,
+      'jazzy',
+      'should have change',
+    );
+    assert.strictEqual(
+      dummyChangeset.get('profile.pet.breed'),
+      'jazzy',
+      'should have change using get',
+    );
+    assert.strictEqual(
+      dummyChangeset.get('profile.pet').breed,
+      'jazzy',
+      'should have change using get',
+    );
+    assert.strictEqual(
+      dummyChangeset.get('profile').pet.breed,
+      'jazzy',
+      'should have change using get',
+    );
 
     let changes = dummyChangeset.changes;
-    assert.strictEqual(changes[0].value.breed, 'jazzy', 'changes with nested key Ember.set');
+    assert.strictEqual(
+      changes[0].value.breed,
+      'jazzy',
+      'changes with nested key Ember.set',
+    );
 
     set(dummyChangeset, 'profile.pet', pet2);
 
-    assert.strictEqual(dummyChangeset.profile.pet.breed, 'hands', 'should have new change');
-    assert.strictEqual(dummyChangeset.get('profile.pet.breed'), 'hands', 'should have new change using get');
-    assert.strictEqual(dummyChangeset.get('profile.pet').breed, 'hands', 'should have new change using get');
-    assert.strictEqual(dummyChangeset.get('profile').pet.breed, 'hands', 'should have new change using get');
+    assert.strictEqual(
+      dummyChangeset.profile.pet.breed,
+      'hands',
+      'should have new change',
+    );
+    assert.strictEqual(
+      dummyChangeset.get('profile.pet.breed'),
+      'hands',
+      'should have new change using get',
+    );
+    assert.strictEqual(
+      dummyChangeset.get('profile.pet').breed,
+      'hands',
+      'should have new change using get',
+    );
+    assert.strictEqual(
+      dummyChangeset.get('profile').pet.breed,
+      'hands',
+      'should have new change using get',
+    );
 
     changes = dummyChangeset.changes;
-    assert.strictEqual(changes[0].value.breed, 'hands', 'changes with nested key Ember.set');
+    assert.strictEqual(
+      changes[0].value.breed,
+      'hands',
+      'changes with nested key Ember.set',
+    );
 
     dummyChangeset.execute();
 
-    assert.strictEqual(get(mockUserModel, 'profile.pet.breed'), 'hands', 'has new property');
+    assert.strictEqual(
+      get(mockUserModel, 'profile.pet.breed'),
+      'hands',
+      'has new property',
+    );
   });
 
   test('#set with Object should work TWICE for nested', async function (assert) {
@@ -959,21 +1242,53 @@ module('Unit | Utility | changeset', function (hooks) {
     let dummyChangeset = Changeset(dummyModel);
     dummyChangeset.set('name.title', title1);
 
-    assert.strictEqual(get(dummyModel, 'name.title.id'), undefined, 'should not have new change');
-    assert.strictEqual(dummyChangeset.name.title.id, 'Mr', 'should have new change');
-    assert.strictEqual(dummyChangeset.get('name.title.id'), 'Mr', 'should have new change using get');
+    assert.strictEqual(
+      get(dummyModel, 'name.title.id'),
+      undefined,
+      'should not have new change',
+    );
+    assert.strictEqual(
+      dummyChangeset.name.title.id,
+      'Mr',
+      'should have new change',
+    );
+    assert.strictEqual(
+      dummyChangeset.get('name.title.id'),
+      'Mr',
+      'should have new change using get',
+    );
 
     let changes = dummyChangeset.changes;
-    assert.deepEqual(changes, [{ key: 'name.title', value: title1 }], 'changes with nested key Ember.set');
+    assert.deepEqual(
+      changes,
+      [{ key: 'name.title', value: title1 }],
+      'changes with nested key Ember.set',
+    );
 
     dummyChangeset.set('name.title', title2);
 
-    assert.strictEqual(get(dummyModel, 'name.title.id'), undefined, 'should not have new change');
-    assert.strictEqual(dummyChangeset.name.title.id, 'Mrs', 'should have new change');
-    assert.strictEqual(dummyChangeset.get('name.title.id'), 'Mrs', 'should have new change using get');
+    assert.strictEqual(
+      get(dummyModel, 'name.title.id'),
+      undefined,
+      'should not have new change',
+    );
+    assert.strictEqual(
+      dummyChangeset.name.title.id,
+      'Mrs',
+      'should have new change',
+    );
+    assert.strictEqual(
+      dummyChangeset.get('name.title.id'),
+      'Mrs',
+      'should have new change using get',
+    );
 
     changes = dummyChangeset.changes;
-    assert.deepEqual(changes, [{ key: 'name.title', value: title2 }], 'changes with nested key Ember.set');
+    assert.deepEqual(
+      changes,
+      [{ key: 'name.title', value: title2 }],
+      'changes with nested key Ember.set',
+    );
 
     dummyChangeset.execute();
 
@@ -1008,21 +1323,35 @@ module('Unit | Utility | changeset', function (hooks) {
     ];
     dummyChangeset.setProperties({ firstName: 'foo', lastName: 'bar' });
 
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedResult, 'precondition');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedResult,
+      'precondition',
+    );
   });
 
   test('it accepts async validations', async function (assert) {
     let dummyChangeset = Changeset(dummyModel, dummyValidator);
     let expectedChanges = [{ key: 'async', value: true }];
-    let expectedError = { async: { validation: 'is invalid', value: 'is invalid' } };
+    let expectedError = {
+      async: { validation: 'is invalid', value: 'is invalid' },
+    };
 
     await dummyChangeset.set('async', true);
     await settled();
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'should set change');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'should set change',
+    );
 
     dummyChangeset.set('async', 'is invalid');
     await settled();
-    assert.deepEqual(classToObj(get(dummyChangeset, 'error')), expectedError, 'should set error');
+    assert.deepEqual(
+      classToObj(get(dummyChangeset, 'error')),
+      expectedError,
+      'should set error',
+    );
   });
 
   test('it clears errors when setting to original value', async function (assert) {
@@ -1079,7 +1408,11 @@ module('Unit | Utility | changeset', function (hooks) {
     let model = { foo: { bar: { baz: 42 } } };
 
     let c = Changeset(model);
-    assert.deepEqual(c.get('foo.bar.baz'), get(model, 'foo.bar.baz'), 'model and changeset in sync');
+    assert.deepEqual(
+      c.get('foo.bar.baz'),
+      get(model, 'foo.bar.baz'),
+      'model and changeset in sync',
+    );
 
     c.set('foo', 'not an object anymore');
     c.execute();
@@ -1175,12 +1508,26 @@ module('Unit | Utility | changeset', function (hooks) {
 
       return modified;
     });
-    let changeKeys = get(dummyChangeset, 'changes').map((change) => get(change, 'key'));
+    let changeKeys = get(dummyChangeset, 'changes').map((change) =>
+      get(change, 'key'),
+    );
 
-    assert.deepEqual(changeKeys, ['first-name', 'date-of-birth'], 'should update changes');
+    assert.deepEqual(
+      changeKeys,
+      ['first-name', 'date-of-birth'],
+      'should update changes',
+    );
     dummyChangeset.execute();
-    assert.strictEqual(get(dummyModel, 'first-name'), 'foo', 'should update changes');
-    assert.strictEqual(get(dummyModel, 'date-of-birth'), date, 'should update changes');
+    assert.strictEqual(
+      get(dummyModel, 'first-name'),
+      'foo',
+      'should update changes',
+    );
+    assert.strictEqual(
+      get(dummyModel, 'date-of-birth'),
+      date,
+      'should update changes',
+    );
   });
 
   test('#prepare throws if callback does not return object', async function (assert) {
@@ -1195,8 +1542,10 @@ module('Unit | Utility | changeset', function (hooks) {
       });
     } catch ({ message }) {
       assert.throws(
-        ({ message }) => message === 'Assertion Failed: Callback to `changeset.prepare` must return an object',
-        'should throw error'
+        ({ message }) =>
+          message ===
+          'Assertion Failed: Callback to `changeset.prepare` must return an object',
+        'should throw error',
       );
     }
   });
@@ -1222,7 +1571,11 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.strictEqual(get(dummyModel, 'name'), undefined, 'precondition');
     assert.ok(get(dummyChangeset, 'isInvalid'), 'should be invalid');
     dummyChangeset.execute();
-    assert.strictEqual(get(dummyModel, 'name'), undefined, 'should not apply changes');
+    assert.strictEqual(
+      get(dummyModel, 'name'),
+      undefined,
+      'should not apply changes',
+    );
   });
 
   test('#execute does not remove original nested objects', function (a) {
@@ -1309,9 +1662,21 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('org.usa.ny', 'ny');
     dummyChangeset.set('org.usa.ma', { name: 'Massachusetts' });
     dummyChangeset.execute();
-    assert.deepEqual(dummyChangeset.change, expectedResult, 'should have correct shape');
-    assert.deepEqual(dummyChangeset._content.org, expectedResult.org, 'should have correct shape');
-    assert.deepEqual(get(dummyModel, 'org'), expectedResult.org, 'should set value');
+    assert.deepEqual(
+      dummyChangeset.change,
+      expectedResult,
+      'should have correct shape',
+    );
+    assert.deepEqual(
+      dummyChangeset._content.org,
+      expectedResult.org,
+      'should have correct shape',
+    );
+    assert.deepEqual(
+      get(dummyModel, 'org'),
+      expectedResult.org,
+      'should set value',
+    );
   });
 
   test('execute returns correct object after setting value on empty initial object', async function (assert) {
@@ -1359,7 +1724,11 @@ module('Unit | Utility | changeset', function (hooks) {
 
     let pendingChanges = dummyChangeset.pendingData;
 
-    assert.strictEqual(get(pendingChanges, 'name'), 'a', 'should apply changes');
+    assert.strictEqual(
+      get(pendingChanges, 'name'),
+      'a',
+      'should apply changes',
+    );
   });
 
   test('#pendingChanges up to date if changeset is valid', async function (assert) {
@@ -1371,7 +1740,11 @@ module('Unit | Utility | changeset', function (hooks) {
 
     let pendingChanges = dummyChangeset.pendingData;
 
-    assert.strictEqual(get(pendingChanges, 'name'), 'foo', 'should apply changes');
+    assert.strictEqual(
+      get(pendingChanges, 'name'),
+      'foo',
+      'should apply changes',
+    );
   });
 
   test('#pendingChanges up to date after saved changeset modified again', async function (assert) {
@@ -1381,18 +1754,42 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.strictEqual(get(dummyModel, 'name'), undefined, 'precondition');
     assert.true(get(dummyChangeset, 'isValid'), 'can be valid');
 
-    assert.strictEqual(get(dummyChangeset.pendingData, 'name'), 'foo', 'should apply changes');
-    assert.strictEqual(get(dummyModel, 'name'), undefined, 'original data is not applied');
+    assert.strictEqual(
+      get(dummyChangeset.pendingData, 'name'),
+      'foo',
+      'should apply changes',
+    );
+    assert.strictEqual(
+      get(dummyModel, 'name'),
+      undefined,
+      'original data is not applied',
+    );
 
     dummyChangeset.save();
 
-    assert.strictEqual(get(dummyModel, 'name'), 'foo', 'original data is updated');
-    assert.deepEqual(dummyModel, dummyChangeset.pendingData, 'pending changes equal to original data');
+    assert.strictEqual(
+      get(dummyModel, 'name'),
+      'foo',
+      'original data is updated',
+    );
+    assert.deepEqual(
+      dummyModel,
+      dummyChangeset.pendingData,
+      'pending changes equal to original data',
+    );
 
     dummyChangeset.set('name', 'bar');
 
-    assert.strictEqual(get(dummyChangeset.pendingData, 'name'), 'bar', 'pending data is returned in pendingChanges');
-    assert.strictEqual(get(dummyModel, 'name'), 'foo', 'original data is not modified');
+    assert.strictEqual(
+      get(dummyChangeset.pendingData, 'name'),
+      'bar',
+      'pending data is returned in pendingChanges',
+    );
+    assert.strictEqual(
+      get(dummyModel, 'name'),
+      'foo',
+      'original data is not modified',
+    );
   });
 
   test('#pendingChanges with ember-data model is not possible due to circular dependency when merging ember-data models', async function (assert) {
@@ -1414,17 +1811,20 @@ module('Unit | Utility | changeset', function (hooks) {
 
     dummyChangeset.set('profile.firstName', 'Zoe');
 
-    assert.false(get(dummyChangeset, 'isPristine'), 'changeset is not pristine as there is a change');
+    assert.false(
+      get(dummyChangeset, 'isPristine'),
+      'changeset is not pristine as there is a change',
+    );
 
     assert.strictEqual(
       mockUserModel.get('profile.firstName'),
       'Bob',
-      'Original model property should stay without changes'
+      'Original model property should stay without changes',
     );
     assert.strictEqual(
       mockUserModel.get('profile.lastName'),
       'Ross',
-      'Original model property should stay without changes'
+      'Original model property should stay without changes',
     );
 
     assert.throws(
@@ -1432,74 +1832,125 @@ module('Unit | Utility | changeset', function (hooks) {
         assert.strictEqual(
           dummyChangeset.get('pendingData.profile.firstName'),
           'Zoe',
-          'Model belongsTo property should be updated'
+          'Model belongsTo property should be updated',
         );
         assert.strictEqual(
           dummyChangeset.get('pendingData.profile.lastName'),
           'Ross',
-          'Existing property should stay the same'
+          'Existing property should stay the same',
         );
       },
       /Unable to `mergeDeep` with your data. Are you trying to merge two ember-data objects\? Please file an issue with ember-changeset\./,
-      "raised error instance indicates that ember-data models can't be merged"
+      "raised error instance indicates that ember-data models can't be merged",
     );
 
     assert.strictEqual(
       dummyChangeset.get('data.profile.firstName'),
       'Bob',
-      'Original model property should stay without changes'
+      'Original model property should stay without changes',
     );
     assert.strictEqual(
       dummyChangeset.get('data.profile.lastName'),
       'Ross',
-      'Original model property should stay without changes'
+      'Original model property should stay without changes',
     );
   });
 
-  todo('#pendingChanges with ember-data model with multiple change steps', async function (assert) {
-    let store = this.owner.lookup('service:store');
+  todo(
+    '#pendingChanges with ember-data model with multiple change steps',
+    async function (assert) {
+      let store = this.owner.lookup('service:store');
 
-    let mockProfileModel = store.createRecord('profile');
-    let mockUserModel = store.createRecord('user', {
-      profile: mockProfileModel,
-      save: function () {
-        return Promise.resolve(this);
-      },
-    });
+      let mockProfileModel = store.createRecord('profile');
+      let mockUserModel = store.createRecord('user', {
+        profile: mockProfileModel,
+        save: function () {
+          return Promise.resolve(this);
+        },
+      });
 
-    let dummyChangeset = Changeset(mockUserModel);
-    assert.equal(get(dummyChangeset, 'isPristine'), true, 'changeset is pristine');
+      let dummyChangeset = Changeset(mockUserModel);
+      assert.equal(
+        get(dummyChangeset, 'isPristine'),
+        true,
+        'changeset is pristine',
+      );
 
-    dummyChangeset.set('profile.firstName', 'Zoe');
+      dummyChangeset.set('profile.firstName', 'Zoe');
 
-    assert.equal(get(mockUserModel, 'profile.firstName'), 'Bob', 'belongsTo property is not modified');
-    assert.equal(get(dummyChangeset, 'profile.firstName'), 'Zoe', 'belongsTo changeset is modified');
-    assert.equal(
-      get(dummyChangeset.pendingData, 'profile.firstName'),
-      'Zoe',
-      'pending data should give updated values'
-    );
+      assert.equal(
+        get(mockUserModel, 'profile.firstName'),
+        'Bob',
+        'belongsTo property is not modified',
+      );
+      assert.equal(
+        get(dummyChangeset, 'profile.firstName'),
+        'Zoe',
+        'belongsTo changeset is modified',
+      );
+      assert.equal(
+        get(dummyChangeset.pendingData, 'profile.firstName'),
+        'Zoe',
+        'pending data should give updated values',
+      );
 
-    await dummyChangeset.save();
+      await dummyChangeset.save();
 
-    assert.equal(get(mockUserModel, 'profile.firstName'), 'Zoe', 'belongsTo property is updated after save');
-    assert.equal(get(dummyChangeset, 'profile.firstName'), 'Zoe', 'belongsTo changeset has new value');
-    assert.equal(get(dummyChangeset.pendingData, 'profile.firstName'), 'Zoe', 'pendingData should have a new value');
+      assert.equal(
+        get(mockUserModel, 'profile.firstName'),
+        'Zoe',
+        'belongsTo property is updated after save',
+      );
+      assert.equal(
+        get(dummyChangeset, 'profile.firstName'),
+        'Zoe',
+        'belongsTo changeset has new value',
+      );
+      assert.equal(
+        get(dummyChangeset.pendingData, 'profile.firstName'),
+        'Zoe',
+        'pendingData should have a new value',
+      );
 
-    let updatedMockProfileModel = store.createRecord('profile');
+      let updatedMockProfileModel = store.createRecord('profile');
 
-    dummyChangeset.set('profile', updatedMockProfileModel);
+      dummyChangeset.set('profile', updatedMockProfileModel);
 
-    assert.equal(get(mockUserModel, 'profile.firstName'), 'Zoe', 'belongsTo property is model has initial value');
-    assert.equal(get(dummyChangeset, 'profile.firstName'), 'Bob', 'belongsTo changeset is updated');
-    assert.equal(get(dummyChangeset.pendingData, 'profile.firstName'), 'Bob', 'belongsTo pendingData has new value');
+      assert.equal(
+        get(mockUserModel, 'profile.firstName'),
+        'Zoe',
+        'belongsTo property is model has initial value',
+      );
+      assert.equal(
+        get(dummyChangeset, 'profile.firstName'),
+        'Bob',
+        'belongsTo changeset is updated',
+      );
+      assert.equal(
+        get(dummyChangeset.pendingData, 'profile.firstName'),
+        'Bob',
+        'belongsTo pendingData has new value',
+      );
 
-    await dummyChangeset.save();
+      await dummyChangeset.save();
 
-    assert.equal(get(mockUserModel, 'profile.firstName'), 'Bob', 'belongsTo property is updated');
-    assert.equal(get(dummyChangeset, 'profile.firstName'), 'Bob', 'belongsTo changeset is updated');
-    assert.equal(get(dummyChangeset.pendingData, 'profile.firstName'), 'Bob', 'belongsTo pendingData is updated');
-  });
+      assert.equal(
+        get(mockUserModel, 'profile.firstName'),
+        'Bob',
+        'belongsTo property is updated',
+      );
+      assert.equal(
+        get(dummyChangeset, 'profile.firstName'),
+        'Bob',
+        'belongsTo changeset is updated',
+      );
+      assert.equal(
+        get(dummyChangeset.pendingData, 'profile.firstName'),
+        'Bob',
+        'belongsTo pendingData is updated',
+      );
+    },
+  );
 
   /**
    * #save
@@ -1519,11 +1970,27 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.strictEqual(result, undefined, 'precondition');
     let promise = dummyChangeset.save('test options');
     assert.strictEqual(result, 'ok', 'should save');
-    assert.deepEqual(get(dummyChangeset, 'change'), { name: 'foo' }, 'should save');
-    assert.strictEqual(options, 'test options', 'should proxy options when saving');
-    assert.strictEqual(typeof promise.then, 'function', 'save returns a promise');
+    assert.deepEqual(
+      get(dummyChangeset, 'change'),
+      { name: 'foo' },
+      'should save',
+    );
+    assert.strictEqual(
+      options,
+      'test options',
+      'should proxy options when saving',
+    );
+    assert.strictEqual(
+      typeof promise.then,
+      'function',
+      'save returns a promise',
+    );
     const saveResult = await promise;
-    assert.strictEqual(saveResult, 'saveResult', 'save proxies to save promise of content');
+    assert.strictEqual(
+      saveResult,
+      'saveResult',
+      'save proxies to save promise of content',
+    );
   });
 
   test('#save handles non-promise proxy content', async function (assert) {
@@ -1540,10 +2007,22 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.strictEqual(result, undefined, 'precondition');
     let promise = dummyChangeset.save('test options');
     assert.strictEqual(result, 'ok', 'should save');
-    assert.strictEqual(options, 'test options', 'should proxy options when saving');
-    assert.strictEqual(typeof promise.then, 'function', 'save returns a promise');
+    assert.strictEqual(
+      options,
+      'test options',
+      'should proxy options when saving',
+    );
+    assert.strictEqual(
+      typeof promise.then,
+      'function',
+      'save returns a promise',
+    );
     const saveResult = await promise;
-    assert.strictEqual(saveResult, 'saveResult', 'save proxies to save promise of content');
+    assert.strictEqual(
+      saveResult,
+      'saveResult',
+      'save proxies to save promise of content',
+    );
   });
 
   test('#save handles rejected proxy content', async function (assert) {
@@ -1599,13 +2078,19 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('name', 'foo');
 
     await dummyChangeset.save();
-    assert.strictEqual(get(person, 'name'), 'foo', 'persist changes to content');
+    assert.strictEqual(
+      get(person, 'name'),
+      'foo',
+      'persist changes to content',
+    );
   });
 
   test('calling save then setting a date from null to something and rejecting does return the right error', async function (assert) {
     assert.expect(1);
 
-    const dummyModel = this.owner.lookup('service:store').createRecord('profile', { startDate: null });
+    const dummyModel = this.owner
+      .lookup('service:store')
+      .createRecord('profile', { startDate: null });
 
     dummyModel.save = () => {
       return Promise.reject({
@@ -1626,7 +2111,11 @@ module('Unit | Utility | changeset', function (hooks) {
       assert.ok(false, 'save should fail if the underlaying save fails');
     } catch (err) {
       console.log('err', err);
-      assert.strictEqual(err.errors[0].detail, 'bad backend error', 'Wrong error: ' + err.message);
+      assert.strictEqual(
+        err.errors[0].detail,
+        'bad backend error',
+        'Wrong error: ' + err.message,
+      );
     }
   });
 
@@ -1645,16 +2134,20 @@ module('Unit | Utility | changeset', function (hooks) {
       { key: 'lastName', value: 'Bob' },
     ];
 
-    assert.deepEqual(get(dummyChangesetC, 'changes'), expectedChanges, 'should merge 2 valid changesets');
+    assert.deepEqual(
+      get(dummyChangesetC, 'changes'),
+      expectedChanges,
+      'should merge 2 valid changesets',
+    );
     assert.deepEqual(
       get(dummyChangesetA, 'changes'),
       [{ key: 'firstName', value: 'Jim' }],
-      'should not mutate first changeset'
+      'should not mutate first changeset',
     );
     assert.deepEqual(
       get(dummyChangesetB, 'changes'),
       [{ key: 'lastName', value: 'Bob' }],
-      'should not mutate second changeset'
+      'should not mutate second changeset',
     );
   });
 
@@ -1676,12 +2169,32 @@ module('Unit | Utility | changeset', function (hooks) {
     ];
     let expectedErrors = [{ key: 'name', validation: 'too short', value: 'b' }];
 
-    assert.true(get(dummyChangesetA, 'isInvalid'), 'changesetA is not valid becuase of name');
-    assert.true(get(dummyChangesetB, 'isValid'), 'changesetB should be invalid');
-    assert.true(get(dummyChangesetC, 'isInvalid'), 'changesetC should be invalid');
-    assert.true(get(dummyChangesetD, 'isInvalid'), 'changesetD should be invalid');
-    assert.deepEqual(get(dummyChangesetD, 'changes'), expectedChanges, 'should not merge invalid changes');
-    assert.deepEqual(get(dummyChangesetD, 'errors'), expectedErrors, 'should assign errors from both changesets');
+    assert.true(
+      get(dummyChangesetA, 'isInvalid'),
+      'changesetA is not valid becuase of name',
+    );
+    assert.true(
+      get(dummyChangesetB, 'isValid'),
+      'changesetB should be invalid',
+    );
+    assert.true(
+      get(dummyChangesetC, 'isInvalid'),
+      'changesetC should be invalid',
+    );
+    assert.true(
+      get(dummyChangesetD, 'isInvalid'),
+      'changesetD should be invalid',
+    );
+    assert.deepEqual(
+      get(dummyChangesetD, 'changes'),
+      expectedChanges,
+      'should not merge invalid changes',
+    );
+    assert.deepEqual(
+      get(dummyChangesetD, 'errors'),
+      expectedErrors,
+      'should assign errors from both changesets',
+    );
   });
 
   test('#merge does not merge a changeset with a non-changeset', async function (assert) {
@@ -1695,8 +2208,9 @@ module('Unit | Utility | changeset', function (hooks) {
       dummyChangesetA.merge(dummyChangesetB);
     } catch ({ message }) {
       assert.throws(
-        ({ message }) => message === 'Assertion Failed: Cannot merge with a non-changeset',
-        'should throw error'
+        ({ message }) =>
+          message === 'Assertion Failed: Cannot merge with a non-changeset',
+        'should throw error',
       );
     }
   });
@@ -1711,8 +2225,10 @@ module('Unit | Utility | changeset', function (hooks) {
       dummyChangesetA.merge(dummyChangesetB);
     } catch ({ message }) {
       assert.throws(
-        ({ message }) => message === 'Assertion Failed: Cannot merge with a changeset of different content',
-        'should throw error'
+        ({ message }) =>
+          message ===
+          'Assertion Failed: Cannot merge with a changeset of different content',
+        'should throw error',
       );
     }
   });
@@ -1724,12 +2240,20 @@ module('Unit | Utility | changeset', function (hooks) {
     let expectedErrors = [{ key: 'name', validation: 'too short', value: 'a' }];
 
     dummyChangesetC.set('name', 'a');
-    assert.deepEqual(dummyChangesetC.get('errors'), expectedErrors, 'should preserve validator');
+    assert.deepEqual(
+      dummyChangesetC.get('errors'),
+      expectedErrors,
+      'should preserve validator',
+    );
 
     dummyChangesetC.set('name', 'Jim Bob');
     await dummyChangesetC.save();
 
-    assert.strictEqual(dummyModel.get('name'), 'Jim Bob', 'should set value on model');
+    assert.strictEqual(
+      dummyModel.get('name'),
+      'Jim Bob',
+      'should set value on model',
+    );
   });
 
   /**
@@ -1748,8 +2272,16 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('lastName', 'bar');
     dummyChangeset.set('name', '');
 
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'precondition');
-    assert.deepEqual(get(dummyChangeset, 'errors'), expectedErrors, 'precondition');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'precondition',
+    );
+    assert.deepEqual(
+      get(dummyChangeset, 'errors'),
+      expectedErrors,
+      'precondition',
+    );
     dummyChangeset.rollback();
     assert.deepEqual(get(dummyChangeset, 'changes'), [], 'should rollback');
     assert.deepEqual(get(dummyChangeset, 'errors'), [], 'should rollback');
@@ -1769,13 +2301,21 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('name', 'abcde');
 
     let expectedChanges = [{ key: 'name', value: 'abcde' }];
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'name is set');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'name is set',
+    );
     dummyChangeset.rollback();
     assert.deepEqual(get(dummyChangeset, 'changes'), [], 'rolls back');
 
     dummyChangeset.set('name', 'mnop');
     expectedChanges = [{ key: 'name', value: 'mnop' }];
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'name is set');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'name is set',
+    );
     dummyChangeset.rollback();
     assert.deepEqual(get(dummyChangeset, 'changes'), [], 'rolls back');
   });
@@ -1788,13 +2328,21 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('org.asia.sg', 'sg');
 
     let expectedChanges = [{ key: 'org.asia.sg', value: 'sg' }];
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'org is set');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'org is set',
+    );
     dummyChangeset.rollback();
     assert.deepEqual(get(dummyChangeset, 'changes'), [], 'rolls back');
 
     dummyChangeset.set('org.asia.sg', 'Singapore');
     expectedChanges = [{ key: 'org.asia.sg', value: 'Singapore' }];
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'org is set');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'org is set',
+    );
     dummyChangeset.rollback();
     assert.deepEqual(get(dummyChangeset, 'changes'), [], 'rolls back');
   });
@@ -1811,14 +2359,26 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('lastName', 'bar');
     dummyChangeset.set('name', '');
 
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'precondition');
-    assert.deepEqual(get(dummyChangeset, 'errors'), expectedErrors, 'precondition');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'precondition',
+    );
+    assert.deepEqual(
+      get(dummyChangeset, 'errors'),
+      expectedErrors,
+      'precondition',
+    );
     dummyChangeset.rollbackInvalid();
     expectedChanges = [
       { key: 'firstName', value: 'foo' },
       { key: 'lastName', value: 'bar' },
     ];
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'should not rollback');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'should not rollback',
+    );
     assert.deepEqual(get(dummyChangeset, 'errors'), [], 'should rollback');
   });
 
@@ -1839,17 +2399,35 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('password', false);
     dummyChangeset.set('name', '');
 
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'precondition');
-    assert.deepEqual(get(dummyChangeset, 'errors'), expectedErrors, 'precondition');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'precondition',
+    );
+    assert.deepEqual(
+      get(dummyChangeset, 'errors'),
+      expectedErrors,
+      'precondition',
+    );
     dummyChangeset.rollbackInvalid('name');
     expectedChanges = [
       { key: 'firstName', value: 'foo' },
       { key: 'lastName', value: 'bar' },
       { key: 'password', value: false },
     ];
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'should not rollback');
-    expectedErrors = [{ key: 'password', validation: ['foo', 'bar'], value: false }];
-    assert.deepEqual(get(dummyChangeset, 'errors'), expectedErrors, 'should rollback');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'should not rollback',
+    );
+    expectedErrors = [
+      { key: 'password', validation: ['foo', 'bar'], value: false },
+    ];
+    assert.deepEqual(
+      get(dummyChangeset, 'errors'),
+      expectedErrors,
+      'should rollback',
+    );
   });
 
   test('#rollbackInvalid resets valid state', async function (assert) {
@@ -1866,10 +2444,18 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('name', 'abcd');
 
     let expectedChanges = [{ key: 'name', value: 'abcd' }];
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'has correct changes');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'has correct changes',
+    );
     assert.ok(get(dummyChangeset, 'isValid'), 'should be valid');
     dummyChangeset.rollbackInvalid('name');
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'should not remove valid changes');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'should not remove valid changes',
+    );
     assert.ok(get(dummyChangeset, 'isValid'), 'should still be valid');
   });
 
@@ -1885,11 +2471,27 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('lastName', 'bar');
     dummyChangeset.set('name', '');
 
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'precondition');
-    assert.deepEqual(get(dummyChangeset, 'errors'), expectedErrors, 'precondition');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'precondition',
+    );
+    assert.deepEqual(
+      get(dummyChangeset, 'errors'),
+      expectedErrors,
+      'precondition',
+    );
     dummyChangeset.rollbackInvalid('dowat?');
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'should not rollback');
-    assert.deepEqual(get(dummyChangeset, 'errors'), expectedErrors, 'precondition');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'should not rollback',
+    );
+    assert.deepEqual(
+      get(dummyChangeset, 'errors'),
+      expectedErrors,
+      'precondition',
+    );
   });
 
   test('#rollbackProperty restores old value for specified property only', async function (assert) {
@@ -1901,7 +2503,11 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('lastName', 'bar');
 
     dummyChangeset.rollbackProperty('firstName');
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'should rollback single property');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'should rollback single property',
+    );
   });
 
   test('#rollbackProperty clears errors for specified property', async function (assert) {
@@ -1916,14 +2522,26 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('lastName', 'bar');
     dummyChangeset.set('name', '');
 
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'precondition');
-    assert.deepEqual(get(dummyChangeset, 'errors'), expectedErrors, 'precondition');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'precondition',
+    );
+    assert.deepEqual(
+      get(dummyChangeset, 'errors'),
+      expectedErrors,
+      'precondition',
+    );
     dummyChangeset.rollbackProperty('name');
     expectedChanges = [
       { key: 'firstName', value: 'foo' },
       { key: 'lastName', value: 'bar' },
     ];
-    assert.deepEqual(get(dummyChangeset, 'changes'), expectedChanges, 'should not rollback');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      expectedChanges,
+      'should not rollback',
+    );
     assert.deepEqual(get(dummyChangeset, 'errors'), [], 'should rollback');
   });
 
@@ -1949,7 +2567,11 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.strictEqual(res, 'Jack', 'observer fired when setting value');
     changeset.rollback();
     await settled(); // observer is now async, await to fire
-    assert.strictEqual(res, undefined, 'observer fired with the value name was rollback to');
+    assert.strictEqual(
+      res,
+      undefined,
+      'observer fired with the value name was rollback to',
+    );
   });
 
   test('can update nested keys after rollback changes.', async function (assert) {
@@ -1975,13 +2597,21 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('org.usa.ny', 'ny');
     dummyChangeset.set('org.usa.ma', { name: 'Massachusetts' });
     dummyChangeset.execute();
-    assert.deepEqual(get(dummyModel, 'org'), expectedResult.org, 'should set value');
+    assert.deepEqual(
+      get(dummyModel, 'org'),
+      expectedResult.org,
+      'should set value',
+    );
 
     expectedResult.org.usa.or = 'or';
     dummyChangeset.rollback();
     dummyChangeset.set('org.usa.or', 'or');
     dummyChangeset.execute();
-    assert.deepEqual(get(dummyModel, 'org'), expectedResult.org, 'should set value');
+    assert.deepEqual(
+      get(dummyModel, 'org'),
+      expectedResult.org,
+      'should set value',
+    );
   });
 
   /**
@@ -1990,34 +2620,50 @@ module('Unit | Utility | changeset', function (hooks) {
 
   test('#validate/0 validates all fields immediately', async function (assert) {
     dummyModel.setProperties({ name: 'J', password: false, options: null });
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, dummyValidations);
+    let dummyChangeset = Changeset(
+      dummyModel,
+      dummyValidator,
+      dummyValidations,
+    );
 
     await dummyChangeset.validate();
     assert.deepEqual(
       classToObj(get(dummyChangeset, 'error.password')),
       { validation: ['foo', 'bar'], value: false },
-      'should validate immediately'
+      'should validate immediately',
     );
     assert.deepEqual(
       classToObj(dummyChangeset.error.password),
       { validation: ['foo', 'bar'], value: false },
-      'should validate immediately'
+      'should validate immediately',
     );
-    assert.deepEqual(get(dummyChangeset, 'changes'), [], 'should not set changes');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      [],
+      'should not set changes',
+    );
     assert.deepEqual(dummyChangeset.changes, [], 'should not set changes');
-    assert.strictEqual(get(dummyChangeset, 'errors.length'), 7, 'should have 7 errors');
+    assert.strictEqual(
+      get(dummyChangeset, 'errors.length'),
+      7,
+      'should have 7 errors',
+    );
     assert.strictEqual(dummyChangeset.errors.length, 7, 'should have 7 errors');
   });
 
   test('#validate/0 with nested fields', async function (assert) {
     dummyModel.setProperties({ org: { usa: { ny: null } } });
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, dummyValidations);
+    let dummyChangeset = Changeset(
+      dummyModel,
+      dummyValidator,
+      dummyValidations,
+    );
 
     await dummyChangeset.validate();
     assert.deepEqual(
       classToObj(dummyChangeset.error.org.usa.ny),
       { validation: 'must be present', value: null },
-      'should validate immediately'
+      'should validate immediately',
     );
     assert.deepEqual(dummyChangeset.changes, [], 'should not set changes');
     assert.strictEqual(dummyChangeset.errors.length, 7, 'should have 7 errors');
@@ -2025,35 +2671,59 @@ module('Unit | Utility | changeset', function (hooks) {
 
   test('#validate/1 validates a single field immediately', async function (assert) {
     dummyModel.setProperties({ name: 'J', password: '123' });
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, dummyValidations);
+    let dummyChangeset = Changeset(
+      dummyModel,
+      dummyValidator,
+      dummyValidations,
+    );
 
     await dummyChangeset.validate('name');
     assert.deepEqual(
       classToObj(get(dummyChangeset, 'error.name')),
       { validation: 'too short', value: 'J' },
-      'should validate immediately'
+      'should validate immediately',
     );
-    assert.deepEqual(get(dummyChangeset, 'changes'), [], 'should not set changes');
-    assert.strictEqual(get(dummyChangeset, 'errors.length'), 1, 'should only have 1 error');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      [],
+      'should not set changes',
+    );
+    assert.strictEqual(
+      get(dummyChangeset, 'errors.length'),
+      1,
+      'should only have 1 error',
+    );
   });
 
   test('#validate validates a multiple field immediately', async function (assert) {
     dummyModel.setProperties({ name: 'J', password: false });
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, dummyValidations);
+    let dummyChangeset = Changeset(
+      dummyModel,
+      dummyValidator,
+      dummyValidations,
+    );
 
     await dummyChangeset.validate('name', 'password');
     assert.deepEqual(
       classToObj(get(dummyChangeset, 'error.name')),
       { validation: 'too short', value: 'J' },
-      'should validate immediately'
+      'should validate immediately',
     );
     assert.deepEqual(
       classToObj(get(dummyChangeset, 'error.password')),
       { validation: ['foo', 'bar'], value: false },
-      'should validate immediately'
+      'should validate immediately',
     );
-    assert.deepEqual(get(dummyChangeset, 'changes'), [], 'should not set changes');
-    assert.strictEqual(get(dummyChangeset, 'errors.length'), 2, 'should only have 2 error');
+    assert.deepEqual(
+      get(dummyChangeset, 'changes'),
+      [],
+      'should not set changes',
+    );
+    assert.strictEqual(
+      get(dummyChangeset, 'errors.length'),
+      2,
+      'should only have 2 error',
+    );
   });
 
   test('#validate works correctly with changeset values', async function (assert) {
@@ -2070,25 +2740,52 @@ module('Unit | Utility | changeset', function (hooks) {
         },
       },
     });
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, dummyValidations);
+    let dummyChangeset = Changeset(
+      dummyModel,
+      dummyValidator,
+      dummyValidations,
+    );
 
     dummyChangeset.set('name', 'Jim Bob');
     await dummyChangeset.validate();
-    assert.strictEqual(get(dummyChangeset, 'errors.length'), 3, 'should have 3 errors');
-    assert.strictEqual(get(dummyChangeset, 'errors.0.key'), 'password', 'has first error key');
-    assert.strictEqual(get(dummyChangeset, 'errors.1.key'), 'org.isCompliant', 'has second error key');
-    assert.strictEqual(get(dummyChangeset, 'errors.2.key'), 'org.usa.ny', 'has third error key');
+    assert.strictEqual(
+      get(dummyChangeset, 'errors.length'),
+      3,
+      'should have 3 errors',
+    );
+    assert.strictEqual(
+      get(dummyChangeset, 'errors.0.key'),
+      'password',
+      'has first error key',
+    );
+    assert.strictEqual(
+      get(dummyChangeset, 'errors.1.key'),
+      'org.isCompliant',
+      'has second error key',
+    );
+    assert.strictEqual(
+      get(dummyChangeset, 'errors.2.key'),
+      'org.usa.ny',
+      'has third error key',
+    );
     assert.ok(get(dummyChangeset, 'isInvalid'), 'should be invalid');
 
     dummyChangeset.set('passwordConfirmation', true);
 
     await dummyChangeset.validate();
 
-    assert.strictEqual(get(dummyChangeset, 'errors.length'), 4, 'should have 4 errors');
+    assert.strictEqual(
+      get(dummyChangeset, 'errors.length'),
+      4,
+      'should have 4 errors',
+    );
     assert.strictEqual(get(dummyChangeset, 'errors.0.key'), 'org.usa.ny');
     assert.strictEqual(get(dummyChangeset, 'errors.1.key'), 'org.isCompliant');
     assert.strictEqual(get(dummyChangeset, 'errors.2.key'), 'password');
-    assert.strictEqual(get(dummyChangeset, 'errors.3.key'), 'passwordConfirmation');
+    assert.strictEqual(
+      get(dummyChangeset, 'errors.3.key'),
+      'passwordConfirmation',
+    );
     assert.ok(get(dummyChangeset, 'isInvalid'), 'should be invalid');
 
     dummyChangeset.set('password', true);
@@ -2096,22 +2793,42 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('org.isCompliant', true);
     dummyChangeset.set('org.usa.ny', 'NY');
     await dummyChangeset.validate();
-    assert.strictEqual(get(dummyChangeset, 'errors.length'), 0, 'should have no errors');
+    assert.strictEqual(
+      get(dummyChangeset, 'errors.length'),
+      0,
+      'should have no errors',
+    );
     assert.ok(get(dummyChangeset, 'isValid'), 'should be valid');
   });
 
   test('#validate works correctly with complex values', async function (assert) {
     dummyModel.setProperties({});
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, dummyValidations);
+    let dummyChangeset = Changeset(
+      dummyModel,
+      dummyValidator,
+      dummyValidations,
+    );
 
     dummyChangeset.set('options', { persist: true });
     dummyChangeset.validate();
-    assert.deepEqual(dummyChangeset.changes[0], { key: 'options', value: { persist: true } });
+    assert.deepEqual(dummyChangeset.changes[0], {
+      key: 'options',
+      value: { persist: true },
+    });
   });
 
   test('#validate marks actual valid changes', async function (assert) {
-    dummyModel.setProperties({ name: 'Jim Bob', password: true, passwordConfirmation: true, async: true });
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, dummyValidations);
+    dummyModel.setProperties({
+      name: 'Jim Bob',
+      password: true,
+      passwordConfirmation: true,
+      async: true,
+    });
+    let dummyChangeset = Changeset(
+      dummyModel,
+      dummyValidator,
+      dummyValidations,
+    );
 
     dummyChangeset.set('name', 'foo bar');
     dummyChangeset.set('password', false);
@@ -2144,7 +2861,11 @@ module('Unit | Utility | changeset', function (hooks) {
         },
       },
     });
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, dummyValidations);
+    let dummyChangeset = Changeset(
+      dummyModel,
+      dummyValidator,
+      dummyValidations,
+    );
 
     dummyChangeset.set('options', options);
 
@@ -2160,20 +2881,36 @@ module('Unit | Utility | changeset', function (hooks) {
       },
     });
 
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, dummyValidations);
+    let dummyChangeset = Changeset(
+      dummyModel,
+      dummyValidator,
+      dummyValidations,
+    );
     await dummyChangeset.validate('org.usa.ny');
     assert.deepEqual(
       classToObj(get(dummyChangeset, 'error.org.usa.ny')),
       { validation: 'must be present', value: null },
-      'should validate immediately'
+      'should validate immediately',
     );
     assert.deepEqual(dummyChangeset.changes, [], 'should not set changes');
-    assert.strictEqual(dummyChangeset.errors.length, 1, 'should only have 1 error');
+    assert.strictEqual(
+      dummyChangeset.errors.length,
+      1,
+      'should only have 1 error',
+    );
   });
 
   test('#validate marks actual valid changes (with boolean)', async function (assert) {
-    dummyModel.setProperties({ name: 'Jim Bob', password: true, passwordConfirmation: true });
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, dummyValidations);
+    dummyModel.setProperties({
+      name: 'Jim Bob',
+      password: true,
+      passwordConfirmation: true,
+    });
+    let dummyChangeset = Changeset(
+      dummyModel,
+      dummyValidator,
+      dummyValidations,
+    );
 
     dummyChangeset.set('name', 'foo bar');
     dummyChangeset.set('password', false);
@@ -2214,20 +2951,39 @@ module('Unit | Utility | changeset', function (hooks) {
     Object.defineProperty(myChangeset, 'isOptionSelected', {
       get() {
         // eslint-disable-next-line ember/no-get
-        return this.get('isOptionOne') || this.get('isOptionTwo') || this.get('isOptionThree');
+        return (
+          this.get('isOptionOne') ||
+          this.get('isOptionTwo') ||
+          this.get('isOptionThree')
+        );
       },
     });
     await myChangeset.validate();
-    assert.true(myChangeset.isInvalid, 'Changeset is invalid as none of the options are selected');
+    assert.true(
+      myChangeset.isInvalid,
+      'Changeset is invalid as none of the options are selected',
+    );
 
     set(myChangeset, 'isOptionTwo', true);
     await myChangeset.validate();
-    assert.false(myChangeset.isInvalid, 'Changeset is valid as one of the options is selected');
+    assert.false(
+      myChangeset.isInvalid,
+      'Changeset is valid as one of the options is selected',
+    );
   });
 
   test('#changeset properties do not proxy', async function (assert) {
-    dummyModel.setProperties({ name: undefined, password: false, async: true, isValid: 'not proxied' });
-    let dummyChangeset = Changeset(dummyModel, dummyValidator, dummyValidations);
+    dummyModel.setProperties({
+      name: undefined,
+      password: false,
+      async: true,
+      isValid: 'not proxied',
+    });
+    let dummyChangeset = Changeset(
+      dummyModel,
+      dummyValidator,
+      dummyValidations,
+    );
 
     dummyChangeset.set('name', 'Jim Bob');
     await dummyChangeset.validate();
@@ -2249,7 +3005,11 @@ module('Unit | Utility | changeset', function (hooks) {
       name: new PersonalValidator(),
     };
 
-    let dummyChangeset = Changeset(dummyModel, lookupValidator(validatorMap), validatorMap);
+    let dummyChangeset = Changeset(
+      dummyModel,
+      lookupValidator(validatorMap),
+      validatorMap,
+    );
     dummyChangeset.name = null;
 
     await dummyChangeset.validate();
@@ -2270,7 +3030,11 @@ module('Unit | Utility | changeset', function (hooks) {
     });
 
     assert.ok(get(dummyChangeset, 'isInvalid'), 'should be invalid');
-    assert.strictEqual(get(dummyChangeset, 'error.email.validation'), 'Email already taken', 'should add the error');
+    assert.strictEqual(
+      get(dummyChangeset, 'error.email.validation'),
+      'Email already taken',
+      'should add the error',
+    );
     dummyChangeset.set('email', 'unique@email.com');
     assert.ok(get(dummyChangeset, 'isValid'), 'should be valid');
   });
@@ -2281,19 +3045,27 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.addError('email', 'Email already taken');
 
     assert.ok(get(dummyChangeset, 'isInvalid'), 'should be invalid');
-    assert.strictEqual(get(dummyChangeset, 'error.email.validation'), 'Email already taken', 'should add the error');
-    assert.strictEqual(get(dummyChangeset, 'error.email.value'), 'jim@bob.com', 'addError uses already present value');
+    assert.strictEqual(
+      get(dummyChangeset, 'error.email.validation'),
+      'Email already taken',
+      'should add the error',
+    );
+    assert.strictEqual(
+      get(dummyChangeset, 'error.email.value'),
+      'jim@bob.com',
+      'addError uses already present value',
+    );
     assert.deepEqual(
       get(dummyChangeset, 'changes'),
       [{ key: 'email', value: 'jim@bob.com' }],
-      'errors set as changes on changeset'
+      'errors set as changes on changeset',
     );
     dummyChangeset.set('email', 'unique@email.com');
     assert.ok(get(dummyChangeset, 'isValid'), 'should be valid');
     assert.deepEqual(
       get(dummyChangeset, 'changes')[0],
       { key: 'email', value: 'unique@email.com' },
-      'has correct changes'
+      'has correct changes',
     );
   });
 
@@ -2305,7 +3077,7 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.strictEqual(
       get(dummyChangeset, 'error.email.localPart.validation'),
       'Cannot contain +',
-      'should add the error'
+      'should add the error',
     );
     dummyChangeset.set('email.localPart', 'ok');
     assert.ok(get(dummyChangeset, 'isValid'), 'should be valid');
@@ -2319,7 +3091,7 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.deepEqual(
       get(dummyChangeset, 'error.email.validation'),
       ['jim@bob.com', 'Email already taken'],
-      'should add the error'
+      'should add the error',
     );
     dummyChangeset.set('email', 'unique@email.com');
     assert.ok(get(dummyChangeset, 'isValid'), 'should be valid');
@@ -2339,24 +3111,24 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.deepEqual(
       get(dummyChangeset, 'error.email.validation'),
       ['Email already taken', 'Invalid email format'],
-      'should push the error'
+      'should push the error',
     );
     assert.strictEqual(
       get(dummyChangeset, 'error.email.value'),
       'jim@bob.com',
-      'pushErrors uses already present value'
+      'pushErrors uses already present value',
     );
     assert.deepEqual(
       get(dummyChangeset, 'changes'),
       [{ key: 'email', value: 'jim@bob.com' }],
-      'pushErrors does not clear the changes on the changeset'
+      'pushErrors does not clear the changes on the changeset',
     );
     dummyChangeset.set('email', 'unique@email.com');
     assert.ok(get(dummyChangeset, 'isValid'), 'should be valid');
     assert.deepEqual(
       get(dummyChangeset, 'changes')[0],
       { key: 'email', value: 'unique@email.com' },
-      'has correct changes'
+      'has correct changes',
     );
   });
 
@@ -2369,9 +3141,13 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.deepEqual(
       get(dummyChangeset, 'error.name.validation'),
       ['too short', 'cannot be J'],
-      'should push the error'
+      'should push the error',
     );
-    assert.strictEqual(get(dummyChangeset, 'error.name.value'), 'J', 'pushErrors uses already present value');
+    assert.strictEqual(
+      get(dummyChangeset, 'error.name.value'),
+      'J',
+      'pushErrors uses already present value',
+    );
     dummyChangeset.set('name', 'Good name');
     assert.ok(get(dummyChangeset, 'isValid'), 'should be valid');
   });
@@ -2384,22 +3160,36 @@ module('Unit | Utility | changeset', function (hooks) {
       errorsOnName: reads('changeset.error.name.validation'),
     }).create({ changeset: dummyChangeset });
 
-    assert.notOk(get(aComponentOrSomething, 'errorsOnName'), 'starts off with no errors');
+    assert.notOk(
+      get(aComponentOrSomething, 'errorsOnName'),
+      'starts off with no errors',
+    );
 
     dummyChangeset.set('name', 'J');
     dummyChangeset.pushErrors('name', 'cannot be J');
 
     assert.ok(get(dummyChangeset, 'isInvalid'), 'should be invalid');
-    assert.deepEqual(get(dummyChangeset, 'error.name.validation'), ['cannot be J'], 'should push the error');
-    assert.strictEqual(get(dummyChangeset, 'error.name.value'), 'J', 'pushErrors uses already present value');
+    assert.deepEqual(
+      get(dummyChangeset, 'error.name.validation'),
+      ['cannot be J'],
+      'should push the error',
+    );
+    assert.strictEqual(
+      get(dummyChangeset, 'error.name.value'),
+      'J',
+      'pushErrors uses already present value',
+    );
     assert.deepEqual(
       get(aComponentOrSomething, 'errorsOnName'),
       ['cannot be J'],
-      'pushErrors updates error object in a way that can be bound to'
+      'pushErrors updates error object in a way that can be bound to',
     );
     dummyChangeset.set('name', 'Good name');
     assert.ok(get(dummyChangeset, 'isValid'), 'should be valid');
-    assert.notOk(get(aComponentOrSomething, 'errorsOnName'), 'clearing of errors can be bound to');
+    assert.notOk(
+      get(aComponentOrSomething, 'errorsOnName'),
+      'clearing of errors can be bound to',
+    );
   });
 
   test('#pushErrors adds an error to the changeset on a nested property', async function (assert) {
@@ -2411,7 +3201,7 @@ module('Unit | Utility | changeset', function (hooks) {
     assert.deepEqual(
       get(dummyChangeset, 'error.email.localPart.validation'),
       ['Cannot contain +', 'is too short'],
-      'should add the error'
+      'should add the error',
     );
     dummyChangeset.set('email.localPart', 'ok');
     assert.ok(get(dummyChangeset, 'isValid'), 'should be valid');
@@ -2447,14 +3237,21 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangesetA.set('password', false);
     let snapshot = dummyChangesetA.snapshot();
 
-    assert.ok(get(dummyChangesetB, 'isValid'), 'precondition - should be valid');
+    assert.ok(
+      get(dummyChangesetB, 'isValid'),
+      'precondition - should be valid',
+    );
     dummyChangesetB.restore(snapshot);
     assert.ok(get(dummyChangesetB, 'isInvalid'), 'should be invalid');
-    assert.strictEqual(get(dummyChangesetB, 'change.name'), 'Pokemon Go', 'should restore changes');
+    assert.strictEqual(
+      get(dummyChangesetB, 'change.name'),
+      'Pokemon Go',
+      'should restore changes',
+    );
     assert.deepEqual(
       classToObj(get(dummyChangesetB, 'error.password')),
       { validation: ['foo', 'bar'], value: false },
-      'should restore errors'
+      'should restore errors',
     );
   });
 
@@ -2474,8 +3271,16 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('unwantedProp', 123);
     dummyChangeset.cast(allowed);
 
-    assert.deepEqual(dummyChangeset.get('changes'), expectedResult, 'should drop `unwantedProp');
-    assert.strictEqual(dummyChangeset.get('unwantedProp'), undefined, 'should remove unwanted changes');
+    assert.deepEqual(
+      dummyChangeset.get('changes'),
+      expectedResult,
+      'should drop `unwantedProp',
+    );
+    assert.strictEqual(
+      dummyChangeset.get('unwantedProp'),
+      undefined,
+      'should remove unwanted changes',
+    );
   });
 
   test('#cast noops if no keys are passed', async function (assert) {
@@ -2490,7 +3295,11 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('unwantedProp', 123);
     dummyChangeset.cast();
 
-    assert.deepEqual(dummyChangeset.get('changes'), expectedResult, 'should drop `unwantedProp');
+    assert.deepEqual(
+      dummyChangeset.get('changes'),
+      expectedResult,
+      'should drop `unwantedProp',
+    );
   });
 
   /**
@@ -2515,11 +3324,11 @@ module('Unit | Utility | changeset', function (hooks) {
 
     assert.ok(
       dummyChangeset.isValidating(),
-      'isValidating should be true when no key is passed in and something is validating'
+      'isValidating should be true when no key is passed in and something is validating',
     );
     assert.ok(
       dummyChangeset.isValidating('reservations'),
-      'isValidating should be true when the key that is passed is validating'
+      'isValidating should be true when the key that is passed is validating',
     );
   });
 
@@ -2538,11 +3347,11 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.validate();
     assert.ok(
       dummyChangeset.isValidating(),
-      'isValidating should be false when no key is passed in and nothing is validating'
+      'isValidating should be false when no key is passed in and nothing is validating',
     );
     assert.ok(
       dummyChangeset.isValidating('reservations'),
-      'isValidating should be false when the key that is passed in is not validating'
+      'isValidating should be false when the key that is passed in is not validating',
     );
   });
 
@@ -2696,7 +3505,9 @@ module('Unit | Utility | changeset', function (hooks) {
       usa: { ny: 'vaca' },
     });
     let extended = class ExtendedChangeset extends EmberChangeset {};
-    let dummyChangeset = ChangesetFactory(dummyModel, dummyValidator, null, { changeset: extended });
+    let dummyChangeset = ChangesetFactory(dummyModel, dummyValidator, null, {
+      changeset: extended,
+    });
     dummyChangeset.set('org.usa.ny', '');
 
     assert.ok(get(dummyChangeset, 'isInvalid'), 'should be invalid');
@@ -2718,7 +3529,7 @@ module('Unit | Utility | changeset', function (hooks) {
       let hasManyDogs = changeset.get('dogs');
       assert.ok(
         Object.prototype.hasOwnProperty.call(hasManyDogs, 'recordData'),
-        'Get returns the related record(s) and not a proxy.'
+        'Get returns the related record(s) and not a proxy.',
       );
     });
   }
@@ -2739,7 +3550,11 @@ module('Unit | Utility | changeset', function (hooks) {
       litter: {},
     };
 
-    const changeset = new Changeset(obj, lookupValidator(validations), validations);
+    const changeset = new Changeset(
+      obj,
+      lookupValidator(validations),
+      validations,
+    );
     changeset.litter.dog = dog;
     changeset.validate();
     assert.ok(true);

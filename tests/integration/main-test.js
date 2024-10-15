@@ -25,28 +25,46 @@ module('Integration | main', function (hooks) {
   });
 
   test('works for top level properties', async function (assert) {
-    let profile = this.store.createRecord('profile', { firstName: 'Terry', lastName: 'Bubblewinkles', nickname: 't' });
+    let profile = this.store.createRecord('profile', {
+      firstName: 'Terry',
+      lastName: 'Bubblewinkles',
+      nickname: 't',
+    });
     let changeset = Changeset(profile);
 
     assert.false(changeset.isDirty, 'isDirty false');
     changeset.firstName = 'RGB';
     assert.true(changeset.isDirty, 'isDirty true');
     assert.strictEqual(changeset.firstName, 'RGB', 'firstName after set');
-    assert.strictEqual(profile.firstName, 'Terry', 'modal has original firstName');
+    assert.strictEqual(
+      profile.firstName,
+      'Terry',
+      'modal has original firstName',
+    );
 
     changeset.execute();
 
     assert.true(changeset.isDirty, 'isDirty true');
     assert.strictEqual(changeset.firstName, 'RGB', 'firstName after set');
-    assert.strictEqual(profile.firstName, 'RGB', 'original modal has new firstName');
+    assert.strictEqual(
+      profile.firstName,
+      'RGB',
+      'original modal has new firstName',
+    );
   });
 
   async function testBasicBelongsTo(assert, userType) {
     let user = this.createUser(userType, false);
     let changeset = Changeset(user);
 
-    assert.equal(changeset.get('profile.firstName'), user.get('profile.firstName'));
-    assert.equal(changeset.get('profile.lastName'), user.get('profile.lastName'));
+    assert.equal(
+      changeset.get('profile.firstName'),
+      user.get('profile.firstName'),
+    );
+    assert.equal(
+      changeset.get('profile.lastName'),
+      user.get('profile.lastName'),
+    );
 
     assert.equal(changeset.isDirty, false, 'is not dirty');
 
@@ -54,31 +72,83 @@ module('Integration | main', function (hooks) {
     changeset.set('profile.nickname', 'g');
     set(changeset, 'profile.lastName', 'Hopper');
 
-    assert.equal(changeset.get('profile.firstName'), 'Grace', 'has firstName after set');
-    assert.equal(changeset.get('profile.nickname'), 'g', 'has nickname after set');
-    assert.equal(changeset.get('profile.lastName'), 'Hopper', 'Ember.set does work');
+    assert.equal(
+      changeset.get('profile.firstName'),
+      'Grace',
+      'has firstName after set',
+    );
+    assert.equal(
+      changeset.get('profile.nickname'),
+      'g',
+      'has nickname after set',
+    );
+    assert.equal(
+      changeset.get('profile.lastName'),
+      'Hopper',
+      'Ember.set does work',
+    );
 
     assert.equal(changeset.isDirty, true, 'is dirty');
 
     changeset.execute();
 
-    assert.equal(user.get('profile.firstName'), 'Grace', 'firstName after execute');
-    assert.equal(user.get('profile.lastName'), 'Hopper', 'lastName after execute');
+    assert.equal(
+      user.get('profile.firstName'),
+      'Grace',
+      'firstName after execute',
+    );
+    assert.equal(
+      user.get('profile.lastName'),
+      'Hopper',
+      'lastName after execute',
+    );
     assert.equal(user.get('profile.nickname'), 'g', 'nickname after execute');
 
     assert.equal(changeset.isDirty, true, 'is dirty');
 
-    let profile = this.store.createRecord('profile', { firstName: 'Terry', lastName: 'Bubblewinkles', nickname: 't' });
+    let profile = this.store.createRecord('profile', {
+      firstName: 'Terry',
+      lastName: 'Bubblewinkles',
+      nickname: 't',
+    });
 
     changeset.set('profile', profile);
 
-    assert.equal(changeset.get('profile').get('firstName'), 'Terry', 'firstName after set');
-    assert.equal(changeset.get('profile').get('lastName'), 'Bubblewinkles', 'lastName after set');
-    assert.equal(changeset.get('profile.firstName'), 'Terry', 'firstName after set nested');
-    assert.equal(changeset.profile.firstName, 'Terry', 'firstName after set nested');
-    assert.equal(changeset.get('profile.lastName'), 'Bubblewinkles', 'lastName after set nested');
-    assert.equal(changeset.profile.lastName, 'Bubblewinkles', 'lastName after set nested');
-    assert.equal(changeset.get('profile.nickname'), 't', 'nickname after set nested');
+    assert.equal(
+      changeset.get('profile').get('firstName'),
+      'Terry',
+      'firstName after set',
+    );
+    assert.equal(
+      changeset.get('profile').get('lastName'),
+      'Bubblewinkles',
+      'lastName after set',
+    );
+    assert.equal(
+      changeset.get('profile.firstName'),
+      'Terry',
+      'firstName after set nested',
+    );
+    assert.equal(
+      changeset.profile.firstName,
+      'Terry',
+      'firstName after set nested',
+    );
+    assert.equal(
+      changeset.get('profile.lastName'),
+      'Bubblewinkles',
+      'lastName after set nested',
+    );
+    assert.equal(
+      changeset.profile.lastName,
+      'Bubblewinkles',
+      'lastName after set nested',
+    );
+    assert.equal(
+      changeset.get('profile.nickname'),
+      't',
+      'nickname after set nested',
+    );
     assert.equal(changeset.profile.nickname, 't', 'nickname after set nested');
 
     assert.equal(changeset.isDirty, true, 'is dirty');
@@ -97,8 +167,16 @@ module('Integration | main', function (hooks) {
 
     changeset.execute();
 
-    assert.equal(changeset.get('profile'), null, 'changeset profile relationship is still null');
-    assert.equal(user.get('profile.firstName'), null, 'underlying user profile firstName is null');
+    assert.equal(
+      changeset.get('profile'),
+      null,
+      'changeset profile relationship is still null',
+    );
+    assert.equal(
+      user.get('profile.firstName'),
+      null,
+      'underlying user profile firstName is null',
+    );
 
     assert.equal(changeset.isDirty, true, 'is dirty');
   }
@@ -118,7 +196,11 @@ module('Integration | main', function (hooks) {
   test('can call prepare with belongsTo', async function (assert) {
     let user = this.createUser('sync-user', false);
     let changeset = Changeset(user);
-    let profile = this.store.createRecord('profile', { firstName: 'Terry', lastName: 'Bubblewinkles', nickname: 't' });
+    let profile = this.store.createRecord('profile', {
+      firstName: 'Terry',
+      lastName: 'Bubblewinkles',
+      nickname: 't',
+    });
 
     changeset.set('profile', profile);
     changeset.prepare((changes) => {
@@ -131,7 +213,11 @@ module('Integration | main', function (hooks) {
       return modified;
     });
 
-    assert.strictEqual(changeset.get('profile').get('firstName'), 'Terry', 'firstName after set');
+    assert.strictEqual(
+      changeset.get('profile').get('firstName'),
+      'Terry',
+      'firstName after set',
+    );
   });
 
   async function testSaveUser(assert, userType) {
@@ -190,23 +276,51 @@ module('Integration | main', function (hooks) {
     profile = changeset.get('profile');
     let profileChangeset = Changeset(profile);
 
-    assert.equal(profileChangeset.get('firstName'), 'Grace', 'profileChangeset profile firstName is set');
-    assert.equal(profileChangeset.isDirty, false, 'profile changeset is not dirty');
-    assert.equal(changeset.get('profile.firstName'), 'Grace', 'changeset profile firstName is set');
+    assert.equal(
+      profileChangeset.get('firstName'),
+      'Grace',
+      'profileChangeset profile firstName is set',
+    );
+    assert.equal(
+      profileChangeset.isDirty,
+      false,
+      'profile changeset is not dirty',
+    );
+    assert.equal(
+      changeset.get('profile.firstName'),
+      'Grace',
+      'changeset profile firstName is set',
+    );
     assert.equal(changeset.isDirty, true, 'changeset is dirty');
 
     profileChangeset.execute();
 
     assert.equal(profile.firstName, 'Grace', 'profile still has first name');
-    assert.equal(profileChangeset.isDirty, false, 'profile changeset is not dirty');
-    assert.equal(user.get('profile.firstName'), 'Bob', 'user still has profile has first name');
+    assert.equal(
+      profileChangeset.isDirty,
+      false,
+      'profile changeset is not dirty',
+    );
+    assert.equal(
+      user.get('profile.firstName'),
+      'Bob',
+      'user still has profile has first name',
+    );
     assert.equal(changeset.isDirty, true, 'changeset is dirty');
 
     changeset.execute();
 
     assert.equal(profile.firstName, 'Grace', 'profile has first name');
-    assert.equal(profileChangeset.isDirty, false, 'profile changeset is not dirty');
-    assert.equal(user.get('profile.firstName'), 'Grace', 'user now has profile has first name');
+    assert.equal(
+      profileChangeset.isDirty,
+      false,
+      'profile changeset is not dirty',
+    );
+    assert.equal(
+      user.get('profile.firstName'),
+      'Grace',
+      'user now has profile has first name',
+    );
     assert.equal(changeset.isDirty, true, 'changeset is dirty');
   }
 
@@ -237,9 +351,21 @@ module('Integration | main', function (hooks) {
     assert.deepEqual(changeset.changes, [], 'has no changes');
 
     dogs = changeset.get('dogs');
-    assert.equal(dogs.objectAt(0).get('breed'), 'rough collie', 'has first breed');
-    assert.equal(dogs.objectAt(1).get('breed'), 'rough collie', 'has second breed');
-    assert.equal(dogs.objectAt(2).get('breed'), 'Münsterländer', 'has third breed');
+    assert.equal(
+      dogs.objectAt(0).get('breed'),
+      'rough collie',
+      'has first breed',
+    );
+    assert.equal(
+      dogs.objectAt(1).get('breed'),
+      'rough collie',
+      'has second breed',
+    );
+    assert.equal(
+      dogs.objectAt(2).get('breed'),
+      'Münsterländer',
+      'has third breed',
+    );
 
     assert.equal(changeset.isDirty, false, 'is not dirty before execute');
     assert.deepEqual(changeset.changes, [], 'has no changes before execute');
@@ -247,9 +373,21 @@ module('Integration | main', function (hooks) {
     changeset.execute();
 
     dogs = user.get('dogs');
-    assert.equal(dogs.objectAt(0).get('breed'), 'rough collie', 'has first breed');
-    assert.equal(dogs.objectAt(1).get('breed'), 'rough collie', 'has second breed');
-    assert.equal(dogs.objectAt(2).get('breed'), 'Münsterländer', 'has third breed');
+    assert.equal(
+      dogs.objectAt(0).get('breed'),
+      'rough collie',
+      'has first breed',
+    );
+    assert.equal(
+      dogs.objectAt(1).get('breed'),
+      'rough collie',
+      'has second breed',
+    );
+    assert.equal(
+      dogs.objectAt(2).get('breed'),
+      'Münsterländer',
+      'has third breed',
+    );
 
     assert.equal(changeset.isDirty, false, 'is not dirty after execute');
     assert.deepEqual(changeset.changes, [], 'has no changes');
@@ -257,12 +395,20 @@ module('Integration | main', function (hooks) {
     changeset.set('dogs', []);
 
     assert.equal(changeset.isDirty, true, 'is dirty');
-    assert.deepEqual(changeset.changes, [{ key: 'dogs', value: [] }], 'has changes');
+    assert.deepEqual(
+      changeset.changes,
+      [{ key: 'dogs', value: [] }],
+      'has changes',
+    );
 
     changeset.set('dogs', [newDog]);
 
     assert.equal(changeset.isDirty, true, 'is dirty');
-    assert.deepEqual(changeset.changes, [{ key: 'dogs', value: [newDog] }], 'has changes');
+    assert.deepEqual(
+      changeset.changes,
+      [{ key: 'dogs', value: [newDog] }],
+      'has changes',
+    );
 
     changeset.execute();
     await settled();
@@ -271,7 +417,11 @@ module('Integration | main', function (hooks) {
     assert.equal(dogs.length, 1, 'dogs removed');
 
     assert.equal(changeset.isDirty, true, 'is still dirty');
-    assert.deepEqual(changeset.changes, [{ key: 'dogs', value: [newDog] }], 'has changes');
+    assert.deepEqual(
+      changeset.changes,
+      [{ key: 'dogs', value: [newDog] }],
+      'has changes',
+    );
 
     changeset.rollback();
     assert.equal(changeset.isDirty, false, 'is not dirty');
@@ -324,14 +474,21 @@ module('Integration | main', function (hooks) {
     let changeset = Changeset(user);
 
     changeset.set('profile', profile);
-    const dogs = [this.store.createRecord('dog'), this.store.createRecord('dog', { breed: 'Münsterländer' })];
+    const dogs = [
+      this.store.createRecord('dog'),
+      this.store.createRecord('dog', { breed: 'Münsterländer' }),
+    ];
 
     changeset.set('dogs', dogs);
 
     changeset.execute();
     await settled();
 
-    assert.equal(user.get('profile.firstName'), 'Bob', 'Profile is set on user');
+    assert.equal(
+      user.get('profile.firstName'),
+      'Bob',
+      'Profile is set on user',
+    );
     assert.equal(user.get('dogs.firstObject.breed'), 'rough collie');
     assert.equal(user.get('dogs.lastObject.breed'), 'Münsterländer');
   }

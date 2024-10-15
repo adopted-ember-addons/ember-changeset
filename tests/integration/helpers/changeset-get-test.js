@@ -28,7 +28,9 @@ module('Integration | Helper | changeset-get', function (hooks) {
       changeset.set('name.first', evt.target.value);
     };
     await render(hbs`
+      <label for="text-input">First name</label>
       <input
+        id="text-input"
         type="text"
         {{on "input" (fn this.updateName this.changeset)}}
         {{on "change" (fn this.updateName this.changeset)}}
@@ -57,7 +59,9 @@ module('Integration | Helper | changeset-get', function (hooks) {
       changeset.set('name.first', evt.target.value);
     };
     await render(hbs`
+      <label for="text-input">First name</label>
       <input
+        id="text-input"
         type="text"
         {{on "input" (fn this.updateName this.changeset)}}
         {{on "change" (fn this.updateName this.changeset)}}

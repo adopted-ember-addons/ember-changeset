@@ -1,4 +1,4 @@
-# Change Log
+# Changelog
 
 Some notable changes going from 2.x to 3.x
 

@@ -76,6 +76,14 @@ export default class ChangesetForm extends Component {
     this.changeset = Changeset(this.model, dummyValidator);
   }
 
+  updateAttrOnInput(changesetSet, event) {
+    changesetSet(event.target.value);
+  }
+
+  updateAttrOnChange(changesetSet, event) {
+    changesetSet(event.target.checked);
+  }
+
   get validateOnRender() {
     let cs = Changeset({}, null, { title: validate });
     cs.validate();

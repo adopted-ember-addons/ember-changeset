@@ -30,7 +30,7 @@
       data-test-cid
       type='number'
       value={{this.changeset.cid}}
-      oninput={{action (changeset-set this.changeset 'cid') value='target.value'}}
+      oninput={{fn this.updateAttrOnInput (changeset-set this.changeset 'cid')}}
     />
   </div>
 
@@ -40,7 +40,7 @@
       data-test-user-name
       type='text'
       value={{get this.changeset 'user.name'}}
-      oninput={{action (changeset-set this.changeset 'user.name') value='target.value'}}
+      oninput={{fn this.updateAttrOnInput (changeset-set this.changeset 'user.name')}}
     />
   </div>
 
@@ -50,7 +50,7 @@
       data-test-user-email
       type='text'
       value={{this.changeset.user.email}}
-      oninput={{action (changeset-set this.changeset 'user.email') value='target.value'}}
+      oninput={{fn this.updateAttrOnInput (changeset-set this.changeset 'user.email')}}
     />
   </div>
 
@@ -60,14 +60,14 @@
       data-test-notifications-email
       type='checkbox'
       checked={{this.changeset.notifications.email}}
-      onchange={{action (changeset-set this.changeset 'notifications.email') value='target.checked'}}
+      onchange={{fn this.updateAttrOnChange (changeset-set this.changeset 'notifications.email')}}
     />
     <label>Notifications sms</label>
     <input
       data-test-notifications-sms
       type='checkbox'
       checked={{this.changeset.notifications.sms}}
-      onchange={{action (changeset-set this.changeset 'notifications.sms') value='target.checked'}}
+      onchange={{fn this.updateAttrOnChange (changeset-set this.changeset 'notifications.sms')}}
     />
   </div>
 
@@ -83,7 +83,7 @@
     <input
       type='number'
       value={{changeset-get this.changeset 'growth'}}
-      {{on 'input' (action (changeset-set this.changeset 'growth') value='target.value')}}
+      {{on 'input' (fn this.updateAttrOnInput (changeset-set this.changeset 'growth'))}}
     />
   </div>
 

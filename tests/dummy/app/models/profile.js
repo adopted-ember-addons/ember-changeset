@@ -4,5 +4,5 @@ export default class Profile extends Model {
   @attr('string', { defaultValue: 'Bob' }) firstName;
   @attr('string', { defaultValue: 'Ross' }) lastName;
 
-  @belongsTo('dog') pet;
+  @belongsTo('dog', { async: true, inverse: null }) pet;
 }

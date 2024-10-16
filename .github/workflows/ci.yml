@@ -66,8 +66,9 @@ jobs:
           - ember-release
           - ember-beta
           - ember-canary
-          - embroider-safe
-          - embroider-optimized
+# @todo uncomment once Ember Data bumped to => 5.3
+#          - embroider-safe
+#          - embroider-optimized
 
     steps:
       - uses: actions/checkout@v3

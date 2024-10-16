@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { typeOf, isPresent } from '@ember/utils';
+import { set } from '@ember/object';
 import { Changeset } from 'ember-changeset';
 import { lookupValidator } from 'validated-changeset';
 import hbs from 'htmlbars-inline-precompile';
@@ -572,6 +573,13 @@ module('Integration | Helper | changeset', function (hooks) {
 
   test('it handles models that are promises', async function (assert) {
     this.dummyModel = Promise.resolve({ firstName: 'Jim', lastName: 'Bob' });
+
+    this.updateFirstName = (changesetObj, event) => {
+      set(changesetObj, 'firstName', event.target.value);
+    };
+
+    // @todo this test does not await until promise resolved
+    // and actually mutates props on the Promise object, not on the changeset
     await render(hbs`
       {{#let (changeset this.dummyModel) as |changesetObj|}}
         <h1>{{changesetObj.firstName}} {{changesetObj.lastName}}</h1>
@@ -579,7 +587,7 @@ module('Integration | Helper | changeset', function (hooks) {
           id="first-name"
           type="text"
           value={{changesetObj.firstName}}
-          onchange={{action (mut changesetObj.firstName) value="target.value"}}>
+          {{on "change" (fn this.updateFirstName changesetObj)}}>
 
         <Input id="last-name" @value={{changesetObj.lastName}} />
       {{/let}}

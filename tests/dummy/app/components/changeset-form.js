@@ -16,6 +16,7 @@ let dummyValidations = {
     email(value) {
       let ok = value && value.includes('@');
       return new Promise((resolve) =>
+        // eslint-disable-next-line ember/no-runloop
         later(
           this,
           () => {

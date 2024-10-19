@@ -2032,6 +2032,7 @@ module('Unit | Utility | changeset', function (hooks) {
 
     set(dummyModel, 'save', () => {
       return new Promise((_, reject) => {
+        // eslint-disable-next-line ember/no-runloop
         next(null, reject, new Error('some ember data error'));
       });
     });
@@ -2056,6 +2057,7 @@ module('Unit | Utility | changeset', function (hooks) {
 
     set(dummyModel, 'save', () => {
       return new Promise((_, reject) => {
+        // eslint-disable-next-line ember/no-runloop
         next(null, reject, new Error('some ember data error'));
       });
     });

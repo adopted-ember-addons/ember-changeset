@@ -7,9 +7,9 @@
 
 ## Compatibility
 
-* Ember.js v3.20 or above
-* Ember CLI v3.20 or above
-* Node.js v12 or above
+- Ember.js v3.20 or above
+- Ember CLI v3.20 or above
+- Node.js v12 or above
 
 
 ## Installation
@@ -1155,7 +1155,6 @@ We're grateful to these wonderful contributors who've contributed to `ember-chan
 ## Contributing
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
-
 
 ## License
 

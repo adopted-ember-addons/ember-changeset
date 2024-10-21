@@ -17,6 +17,12 @@ import {
 module('Integration | Helper | changeset', function (hooks) {
   setupRenderingTest(hooks);
 
+  hooks.beforeEach(function () {
+    this.updateAttr = (changeset, attr, event) => {
+      changeset.set(attr, event.target.value);
+    };
+  });
+
   test('it validates changes', async function (assert) {
     let validations = {
       firstName(value) {
@@ -41,8 +47,8 @@ module('Integration | Helper | changeset', function (hooks) {
         {{#if changesetObj.isInvalid}}
           <p id="errors-paragraph">There were one or more errors in your form.</p>
         {{/if}}
-        <Input id="first-name" @value={{changesetObj.firstName}} />
-        <Input id="last-name" @value={{changesetObj.lastName}} />
+        <input id="first-name" value={{changesetObj.firstName}} {{on "change" (fn this.updateAttr changesetObj "firstName")}} />
+        <input id="last-name" value={{changesetObj.lastName}} {{on "change" (fn this.updateAttr changesetObj "lastName")}} />
         <button id="submit-btn" type="button" {{on "click" (fn this.submit changesetObj)}}>Submit</button>
         <button id="reset-btn" type="button" {{on "click" (fn this.reset changesetObj)}}>Reset</button>
       {{/let}}
@@ -75,8 +81,8 @@ module('Integration | Helper | changeset', function (hooks) {
         {{#if changesetObj.isInvalid}}
           <p id="errors-paragraph">There were one or more errors in your form.</p>
         {{/if}}
-        <Input id="first-name" @value={{changesetObj.firstName}} />
-        <Input id="last-name" @value={{changesetObj.lastName}} />
+        <input id="first-name" value={{changesetObj.firstName}} {{on "change" (fn this.updateAttr changesetObj "firstName")}} />
+        <input id="last-name" value={{changesetObj.lastName}} {{on "change" (fn this.updateAttr changesetObj "lastName")}} />
         <button id="submit-btn" type="button" {{on "click" (fn this.submit changesetObj)}}>Submit</button>
         <button id="reset-btn" type="button" {{on "click" (fn this.reset changesetObj)}}>Reset</button>
       {{/let}}
@@ -115,8 +121,8 @@ module('Integration | Helper | changeset', function (hooks) {
         {{#if changesetObj.isInvalid}}
           <p id="errors-paragraph">There were one or more errors in your form.</p>
         {{/if}}
-        <Input id="first-name" @value={{changesetObj.firstName}} />
-        <Input id="last-name" @value={{changesetObj.lastName}} />
+        <input id="first-name" value={{changesetObj.firstName}} {{on "change" (fn this.updateAttr changesetObj "firstName")}} />
+        <input id="last-name" value={{changesetObj.lastName}} {{on "change" (fn this.updateAttr changesetObj "lastName")}} />
         <button id="submit-btn" type="button" {{on "click" (fn this.submit changesetObj)}}>Submit</button>
         <button id="reset-btn" type="button" {{on "click" (fn this.reset changesetObj)}}>Reset</button>
       {{/let}}
@@ -156,8 +162,8 @@ module('Integration | Helper | changeset', function (hooks) {
         {{#if changesetObj.isInvalid}}
           <p id="errors-paragraph">There were one or more errors in your form.</p>
         {{/if}}
-        <Input id="first-name" @value={{changesetObj.firstName}} />
-        <Input id="last-name" @value={{changesetObj.lastName}} />
+        <input id="first-name" value={{changesetObj.firstName}} {{on "change" (fn this.updateAttr changesetObj "firstName")}} />
+        <input id="last-name" value={{changesetObj.lastName}} {{on "change" (fn this.updateAttr changesetObj "lastName")}} />
         <button id="submit-btn" type="button" {{on "click" (fn this.submit changesetObj)}}>Submit</button>
         <button id="reset-btn" type="button" {{on "click" (fn this.reset changesetObj)}}>Reset</button>
       {{/let}}
@@ -177,7 +183,7 @@ module('Integration | Helper | changeset', function (hooks) {
     this.reset = (changeset) => changeset.rollback();
     await render(hbs`
       {{#let (changeset this.dummyModel) as |changesetObj|}}
-        <Input id="first-name" @value={{changesetObj.firstName}} />
+        <input id="first-name" value={{changesetObj.firstName}} {{on "change" (fn this.updateAttr changesetObj "firstName")}} />
         <button id="reset-btn" type="button" {{on "click" (fn this.reset changesetObj)}}>Reset</button>
       {{/let}}
     `);
@@ -198,8 +204,8 @@ module('Integration | Helper | changeset', function (hooks) {
         {{#if changesetObj.isInvalid}}
           <p id="errors-paragraph">There were one or more errors in your form.</p>
         {{/if}}
-        <Input id="first-name" @value={{changesetObj.firstName}} />
-        <Input id="last-name" @value={{changesetObj.lastName}} />
+        <input id="first-name" value={{changesetObj.firstName}} {{on "change" (fn this.updateAttr changesetObj "firstName")}} />
+        <input id="last-name" value={{changesetObj.lastName}} {{on "change" (fn this.updateAttr changesetObj "lastName")}} />
         <button id="submit-btn" type="button" {{on "click" (fn this.submit changesetObj)}}>Submit</button>
         <button id="reset-btn" type="button" {{on "click" (fn this.reset changesetObj)}}>Reset</button>
       {{/let}}
@@ -211,9 +217,6 @@ module('Integration | Helper | changeset', function (hooks) {
 
   test('it updates when set without a validator', async function (assert) {
     this.dummyModel = { firstName: 'Jim', lastName: 'Bob' };
-    this.updateFirstName = (changeset, evt) => {
-      changeset.firstName = evt.target.value;
-    };
     await render(hbs`
       {{#let (changeset this.dummyModel) as |changesetObj|}}
         <h1>{{changesetObj.firstName}} {{changesetObj.lastName}}</h1>
@@ -221,8 +224,9 @@ module('Integration | Helper | changeset', function (hooks) {
           id="first-name"
           type="text"
           value={{changesetObj.firstName}}
-          {{on "change" (fn this.updateFirstName changesetObj)}}>
-        <Input id="last-name" @value={{changesetObj.lastName}} />
+          {{on "change" (fn this.updateAttr changesetObj "firstName")}}
+        />
+        <input id="last-name" value={{changesetObj.lastName}} {{on "change" (fn this.updateAttr changesetObj "lastName")}} />
       {{/let}}
     `);
 
@@ -245,8 +249,9 @@ module('Integration | Helper | changeset', function (hooks) {
           id="first-name"
           type="text"
           value={{changesetObj.firstName}}
-          {{on "change" (fn this.updateFirstName changesetObj)}}>
-        <Input id="last-name" @value={{changesetObj.lastName}} />
+          {{on "change" (fn this.updateAttr changesetObj "firstName")}}
+        />
+        <input id="last-name" value={{changesetObj.lastName}} {{on "change" (fn this.updateAttr changesetObj "lastName")}} />
       {{/let}}
     `);
 
@@ -260,17 +265,16 @@ module('Integration | Helper | changeset', function (hooks) {
     let data = { person: { firstName: 'Jim', lastName: 'Bob' } };
     let changeset = Changeset(data);
     this.changeset = changeset;
-    this.mutValue = (path, evt) => (this.changeset[path] = evt.target.value);
 
     await render(hbs`
       <h1>{{this.changeset.person.firstName}} {{this.changeset.person.lastName}}</h1>
       <input
         id="first-name"
         value={{this.changeset.person.firstName}}
-        {{on "change" (fn this.mutValue "person.firstName")}}>
+        {{on "change" (fn this.updateAttr this.changeset "person.firstName")}}>
       <input id="last-name"
         value={{this.changeset.person.lastName}}
-        {{on "change" (fn this.mutValue "person.lastName")}}>
+        {{on "change" (fn this.updateAttr this.changeset "person.lastName")}}>
     `);
 
     assert.dom('h1').hasText('Jim Bob', 'precondition');
@@ -323,18 +327,17 @@ module('Integration | Helper | changeset', function (hooks) {
     let data = { person: { firstName: 'Jim', lastName: 'Bob' } };
     let changeset = Changeset(data);
     this.changeset = changeset;
-    this.mutValue = (path, evt) => (this.changeset[path] = evt.target.value);
 
     await render(hbs`
       <h1>{{this.changeset.person.firstName}} {{this.changeset.person.lastName}}</h1>
       <input
         id="first-name"
         value={{this.changeset.person.firstName}}
-        {{on "change" (fn this.mutValue "person.firstName")}}>
+        {{on "change" (fn this.updateAttr this.changeset "person.firstName")}}>
       <input
         id="last-name"
         value={{this.changeset.person.lastName}}
-        {{on "change" (fn this.mutValue "person.lastName")}}>
+        {{on "change" (fn this.updateAttr this.changeset "person.lastName")}}>
     `);
 
     assert.dom('h1').hasText('Jim Bob', 'precondition');
@@ -349,7 +352,6 @@ module('Integration | Helper | changeset', function (hooks) {
       isPresent(newValue) || 'need a first name';
     let c = Changeset(data, validator);
     this.c = c;
-    this.mutValue = (path, evt) => (this.c[path] = evt.target.value);
 
     await render(hbs`
       <h1>{{this.c.person.firstName}}</h1>
@@ -357,7 +359,7 @@ module('Integration | Helper | changeset', function (hooks) {
         id="first-name"
         type="text"
         value={{this.c.person.firstName}}
-        {{on "change" (fn this.mutValue "person.firstName")}}>
+        {{on "change" (fn this.updateAttr this.c "person.firstName")}}>
       <small id="first-name-error">{{this.c.error.person.firstName.validation}}</small>
     `);
 
@@ -381,7 +383,6 @@ module('Integration | Helper | changeset', function (hooks) {
     let validator = () => Promise.resolve(true);
     let c = Changeset(data, validator);
     this.c = c;
-    this.mutValue = (path, evt) => (this.c[path] = evt.target.value);
 
     await render(hbs`
       <h1>{{this.c.person.firstName}}</h1>
@@ -389,7 +390,7 @@ module('Integration | Helper | changeset', function (hooks) {
         id="first-name"
         type="text"
         value={{this.c.person.firstName}}
-        {{on "change" (fn this.mutValue "person.firstName")}}>
+        {{on "change" (fn this.updateAttr this.c "person.firstName")}}>
       <small id="first-name-error">{{this.c.error.person.firstName.validation}}</small>
     `);
     assert.dom('h1').hasText('Jim', 'precondition');
@@ -413,7 +414,7 @@ module('Integration | Helper | changeset', function (hooks) {
         id="first-name"
         type="text"
         value={{this.c.person.name.parts.first}}
-        {{on "change" (fn this.mutValue "person.name.parts.first")}}>
+        {{on "change" (fn this.updateAttr this.c "person.name.parts.first")}}>
       <small id="first-name-error">{{this.c.error.person.name.parts.first.validation}}</small>
     `);
 
@@ -446,11 +447,11 @@ module('Integration | Helper | changeset', function (hooks) {
       <input
         id="first-name"
         value={{this.changeset.person.firstName}}
-        {{on "change" (fn this.mutValue "person.firstName")}}>
+        {{on "change" (fn this.updateAttr this.changeset "person.firstName")}}>
       <input
         id="last-name"
         value={{this.changeset.person.lastName}}
-        {{on "change" (fn this.mutValue "person.lastName")}}>
+        {{on "change" (fn this.updateAttr this.changeset "person.lastName")}}>
       <button id="reset-btn" type="button" {{on "click" this.reset}}>Reset</button>
     `);
 
@@ -574,8 +575,8 @@ module('Integration | Helper | changeset', function (hooks) {
   test('it handles models that are promises', async function (assert) {
     this.dummyModel = Promise.resolve({ firstName: 'Jim', lastName: 'Bob' });
 
-    this.updateFirstName = (changesetObj, event) => {
-      set(changesetObj, 'firstName', event.target.value);
+    this.updateAttr = (changeset, attr, event) => {
+      set(changeset, attr, event.target.value);
     };
 
     // @todo this test does not await until promise resolved
@@ -587,9 +588,13 @@ module('Integration | Helper | changeset', function (hooks) {
           id="first-name"
           type="text"
           value={{changesetObj.firstName}}
-          {{on "change" (fn this.updateFirstName changesetObj)}}>
+          {{on "change" (fn this.updateAttr changesetObj "firstName")}}>
 
-        <Input id="last-name" @value={{changesetObj.lastName}} />
+        <input
+          id="last-name"
+          value={{changesetObj.lastName}}
+          {{on "change" (fn this.updateAttr changesetObj "lastName")}}
+        />
       {{/let}}
     `);
 
@@ -606,8 +611,8 @@ module('Integration | Helper | changeset', function (hooks) {
     await render(hbs`
       {{#let (changeset this.dummyModel this.validate skipValidate=true) as |changesetObj|}}
         <h1>{{changesetObj.firstName}} {{changesetObj.lastName}}</h1>
-        <Input id="first-name" @value={{changesetObj.firstName}} />
-        <Input id="last-name" @value={{changesetObj.lastName}} />
+        <input id="first-name" value={{changesetObj.firstName}} {{on "change" (fn this.updateAttr changesetObj "firstName")}} />
+        <input id="last-name" value={{changesetObj.lastName}} {{on "change" (fn this.updateAttr changesetObj "lastName")}} />
         {{#if changesetObj.isInvalid}}
           <p id="error-paragraph">There were one or more errors in your form.</p>
         {{/if}}
@@ -645,7 +650,7 @@ module('Integration | Helper | changeset', function (hooks) {
         {{#if changesetObj.isDirty}}
           <p id="errors-paragraph">There were one or more errors in your form.</p>
         {{/if}}
-        <Input id="first-name" @value={{changesetObj.firstName}} />
+        <input id="first-name" value={{changesetObj.firstName}} {{on "change" (fn this.updateAttr changesetObj "firstName")}} />
         <button id="submit-btn" type="button" {{on "click" (fn this.submit changesetObj)}}>Submit</button>
       {{/let}}
     `);

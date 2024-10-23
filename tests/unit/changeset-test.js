@@ -7,7 +7,7 @@ import {
 import { settled } from '@ember/test-helpers';
 import { module, test, todo } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { lookupValidator } from 'validated-changeset';
+import { lookupValidator, Change } from 'validated-changeset';
 
 import EmberObject, { get, set, setProperties } from '@ember/object';
 
@@ -3219,7 +3219,7 @@ module('Unit | Utility | changeset', function (hooks) {
     dummyChangeset.set('password', false);
     let snapshot = dummyChangeset.snapshot();
     let expectedResult = {
-      changes: { name: 'Pokemon Go', password: false },
+      changes: { name: new Change('Pokemon Go'), password: new Change(false) },
       errors: { password: { validation: ['foo', 'bar'], value: false } },
     };
 
@@ -3255,6 +3255,37 @@ module('Unit | Utility | changeset', function (hooks) {
       { validation: ['foo', 'bar'], value: false },
       'should restore errors',
     );
+  });
+
+  test('#restore restores a snapshot of the changeset when nested value is object', function (assert) {
+    class Country {
+      constructor(id, name) {
+        this.id = id;
+        this.name = name;
+      }
+    }
+
+    var us = new Country('US', 'United States');
+    var prk = new Country('PRK', 'North Korea');
+    var aus = new Country('AUS', 'Australia');
+
+    let user = {
+      name: 'Adam',
+      address: { country: us },
+    };
+    let dummyChangeset = Changeset(user);
+
+    dummyChangeset.set('name', 'Jim Bob');
+    dummyChangeset.set('address.country', prk);
+    let snapshot1 = dummyChangeset.snapshot();
+
+    dummyChangeset.set('name', 'Poteto');
+    dummyChangeset.set('address.country', aus);
+
+    dummyChangeset.restore(snapshot1);
+
+    assert.strictEqual(get(dummyChangeset, 'change.name'), 'Jim Bob', 'should restore changes');
+    assert.deepEqual(get(dummyChangeset, 'change.address.country'), prk, 'should restore nested changes');
   });
 
   /**

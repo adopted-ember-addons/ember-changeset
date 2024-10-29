@@ -52,6 +52,7 @@ See also the [plugins](#plugins) section for addons that extend `ember-changeset
 #### tl;dr
 
 ```js
+import { get } from '@ember/object';
 import { Changeset } from 'ember-changeset';
 
 let dummyValidations = {
@@ -91,74 +92,80 @@ user.lastName; // "Bob"
 
 First, create a new `Changeset` using the `changeset` helper or through JavaScript via a factory function:
 
-```hbs
-{{! application/template.hbs}}
-{{#let (changeset this.model this.validate) as |changesetObj|}}
-  <DummyForm
-    @changeset={{changesetObj}}
-    @submit={{this.submit}}
-    @rollback={{this.rollback}}
-  />
-{{/let}}
-```
-
-```js
+```gjs
+# my-app/components/my-form.gjs
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
-import { Changeset } from 'ember-changeset';
+import { changeset } from 'ember-changeset';
+import DummyForm from './dummy-form';
 
-export default FormComponent extends Component {
+export default MyForm extends Component {
+  data = {
+    firstName: 'Yehuda',
+    lastName: 'Katz',
+  };
+
   @cached
-  get changeset() {
+  get changesetObj2() {
     let validator = this.validate;
     return Changeset(this.model, validator);
   }
-}
-```
 
-The helper receives any Object (including `DS.Model`, `Ember.Object`, or even POJOs) and an optional `validator` action.
-If a `validator` is passed into the helper, the changeset will attempt to call that function when a value changes.
-
-```js
-// application/controller.js
-import Controller from '@ember/controller';
-import { action } from '@ember/object';
-
-export default class FormController extends Controller {
-  @action
-  submit(changeset) {
+  submit = (changeset) => {
     return changeset.save();
   }
 
-  @action
-  rollback(changeset) {
+  rollback = (changeset) => {
     return changeset.rollback();
   }
 
-  @action
-  setChangesetProperty(changeset, path, evt) {
-    return changeset.set(path, evt.target.value);
-  }
-
-  @action
-  validate({ key, newValue, oldValue, changes, content }) {
+  validate = ({ key, newValue, oldValue, changes, content }) => {
     // lookup a validator function on your favorite validation library
     // and return a Boolean
   }
+
+  <template>
+    {{#let (changeset this.data this.validate) as |changesetObj1|}}
+      <DummyForm
+        @changeset={{changesetObj1}}
+        @submit={{this.submit}}
+        @rollback={{this.rollback}}
+      />
+    {{/let}}
+  
+    <DummyForm
+      @changeset={{this.changesetObj2}}
+      @submit={{this.submit}}
+      @rollback={{this.rollback}}
+    />
+  </template>
 }
+```
+
+The `changeset` function receives any Object (including `DS.Model`, `Ember.Object`, POJOs) and an optional `validator` action.
+If a `validator` is passed to the function, the changeset will attempt to call that function when a value changes.
+
+```gjs
+// components/dummy-form.gjs
+setChangesetProperty(changeset, path, evt) {
+  changeset.set(path, evt.target.value);
+}
+
+<template>
+  <form>
+    <input value={{@changeset.firstName}} {{on "change" (fn setChangesetProperty @changeset "firstName")}} />
+    <input value={{@changeset.lastName}} {{on "change" (fn setChangesetProperty @changeset "lastName")}} />
+
+    <button {{on "click" @submit @changeset}}>Submit</button>
+    <button {{on "click" @rollback @changeset}}>Cancel</button>
+  </form>
+</template>
 ```
 
 Then, in your favorite form library, simply pass in the `changeset` in place of the original model.
 
 ```hbs
-{{! dummy-form/template.hbs}}
-<form>
-  <input value={{this.changeset.firstName}} {{on "change" (fn this.setChangesetProperty this.changeset "firstName")}} />
-  <input value={{this.changeset.lastName}} {{on "change" (fn this.setChangesetProperty this.changeset "lastName")}} />
-
-  <button {{on "click" this.submit this.changeset}}>Submit</button>
-  <button {{on "click" this.rollback this.changeset}}>Cancel</button>
-</form>
+{{! components/dummy-form.hbs}}
 ```
 
 In the above example, when the input changes, only the changeset's internal values are updated.
@@ -199,6 +206,23 @@ If you are only accessing keys in an object that is only one level deep, you do 
     value={{changeset-get this.changeset "person.firstName"}}
     {{on "change" (fn this.updateFirstName this.changeset)}}>
 </form>
+```
+
+or in Template Tag format
+
+```gbs
+import { changesetGet, changesetSet } from 'ember-changeset';
+
+<template>
+  <form>
+    <input
+      id="first-name"
+      type="text"
+      value={{changesetGet this.changeset "person.firstName"}}
+      {{on "change" (fn this.updateFirstName this.changeset)}}
+    >
+  </form>
+</template>
 ```
 
 ## Limiting which keys dirty the changeset

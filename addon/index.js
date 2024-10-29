@@ -16,6 +16,8 @@ import {
 } from '@embroider/macros';
 
 export { ValidatedChangeset };
+export { default as changesetGet } from './helpers/changeset-get';
+export { default as changesetSet } from './helpers/changeset-set';
 
 const CHANGES = '_changes';
 const PREVIOUS_CONTENT = '_previousContent';

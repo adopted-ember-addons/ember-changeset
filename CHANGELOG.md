@@ -1,5 +1,58 @@
 # Changelog
 
+## Release (2025-03-25)
+
+ember-changeset 4.2.0 (minor)
+
+#### :boom: Breaking Change
+* [#688](https://github.com/adopted-ember-addons/ember-changeset/pull/688) Drop support for Node.js 17 and below ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### :rocket: Enhancement
+* `ember-changeset`, `test-app`
+  * [#668](https://github.com/adopted-ember-addons/ember-changeset/pull/668) add #removeError and #removeErrors to Changeset interface ([@jkeen](https://github.com/jkeen))
+* `ember-changeset`
+  * [#698](https://github.com/adopted-ember-addons/ember-changeset/pull/698) Provide types for helpers named exports for .gts support ([@SergeAstapov](https://github.com/SergeAstapov))
+* Other
+  * [#694](https://github.com/adopted-ember-addons/ember-changeset/pull/694) Provide helpers named exports for Template Tag support ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#662](https://github.com/adopted-ember-addons/ember-changeset/pull/662) Pass through original mergeDeep error in cause property ([@mintyfloss](https://github.com/mintyfloss))
+
+#### :memo: Documentation
+* [#691](https://github.com/adopted-ember-addons/ember-changeset/pull/691) Modernize readme examples ([@SergeAstapov](https://github.com/SergeAstapov))
+* [#690](https://github.com/adopted-ember-addons/ember-changeset/pull/690) Update minimum supported Node.js version in README.md ([@SergeAstapov](https://github.com/SergeAstapov))
+* [#687](https://github.com/adopted-ember-addons/ember-changeset/pull/687) Add missing changelog entries ([@SergeAstapov](https://github.com/SergeAstapov))
+* [#672](https://github.com/adopted-ember-addons/ember-changeset/pull/672) Update documentation urls to the new location ([@SergeAstapov](https://github.com/SergeAstapov))
+* [#671](https://github.com/adopted-ember-addons/ember-changeset/pull/671) Update the `repository` field of the `package.json` to point to the new location ([@SergeAstapov](https://github.com/SergeAstapov))
+* [#666](https://github.com/adopted-ember-addons/ember-changeset/pull/666) Use #let instead of deprecated #with in example ([@x-m-el](https://github.com/x-m-el))
+
+#### :house: Internal
+* `ember-changeset`, `test-app`
+  * [#697](https://github.com/adopted-ember-addons/ember-changeset/pull/697) Extract addon to separate workspace ([@SergeAstapov](https://github.com/SergeAstapov))
+* `test-app`
+  * [#695](https://github.com/adopted-ember-addons/ember-changeset/pull/695) Switch to monorepo ([@SergeAstapov](https://github.com/SergeAstapov))
+* Other
+  * [#696](https://github.com/adopted-ember-addons/ember-changeset/pull/696) Switch from npm to pnpm ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#692](https://github.com/adopted-ember-addons/ember-changeset/pull/692) Remove unnecessary .gitkeep files ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#684](https://github.com/adopted-ember-addons/ember-changeset/pull/684) Sync with latest addon blueprint via ember-cli-update --to=5.12 ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#682](https://github.com/adopted-ember-addons/ember-changeset/pull/682) Switch from release-it to release-plan ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#686](https://github.com/adopted-ember-addons/ember-changeset/pull/686) Bump eslint-plugin-qunit to v8 ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#685](https://github.com/adopted-ember-addons/ember-changeset/pull/685) Replace Input component in tests with input element ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#681](https://github.com/adopted-ember-addons/ember-changeset/pull/681) Sync with latest addon blueprint via ember-cli-update --to=4.12 ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#683](https://github.com/adopted-ember-addons/ember-changeset/pull/683) Replace action helper with fn ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#680](https://github.com/adopted-ember-addons/ember-changeset/pull/680) Bump ember-template-lint to v5 and fix errors ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#679](https://github.com/adopted-ember-addons/ember-changeset/pull/679) Explicit relationships options and ED store import in dummy app ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#678](https://github.com/adopted-ember-addons/ember-changeset/pull/678) Move components templates to colocated layout ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#676](https://github.com/adopted-ember-addons/ember-changeset/pull/676) Introduce stylelint ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#677](https://github.com/adopted-ember-addons/ember-changeset/pull/677) Replace `with` template helper with `let` ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#673](https://github.com/adopted-ember-addons/ember-changeset/pull/673) Bump prettier to v3 and fix lint ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#675](https://github.com/adopted-ember-addons/ember-changeset/pull/675) Bump ESLint to v8 and related plugins ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#674](https://github.com/adopted-ember-addons/ember-changeset/pull/674) Bump GitHub actions ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### Committers: 4
+- Jeff Keen ([@jkeen](https://github.com/jkeen))
+- Michael Cheng ([@mintyfloss](https://github.com/mintyfloss))
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+- [@x-m-el](https://github.com/x-m-el)
+
 Some notable changes going from 2.x to 3.x
 
 - error.validation is a string if one validation and array if multiple validations.

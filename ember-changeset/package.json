@@ -43,10 +43,8 @@
     "test": "echo 'A v2 addon does not have tests, run tests in test-app'"
   },
   "dependencies": {
-    "@babel/core": "^7.25.2",
     "@embroider/addon-shim": "^1.8.9",
     "@embroider/macros": "^1.0.0",
-    "@glimmer/tracking": "^1.1.2",
     "decorator-transforms": "^2.2.2",
     "ember-auto-import": "^2.8.1",
     "ember-cli-babel": "^7.26.11",

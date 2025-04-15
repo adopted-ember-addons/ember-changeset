@@ -2,7 +2,7 @@
 
 ## Installation
 
-- `git clone <repository-url>`
+- `git clone git@github.com:adopted-ember-addons/ember-changeset.git`
 - `cd ember-changeset`
 - `pnpm install`
 

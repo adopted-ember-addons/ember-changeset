@@ -18,60 +18,61 @@
     }
   ],
   "types": "./index.d.ts",
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/*.js",
+    "./addon-main.js": "./addon-main.cjs"
   },
+  "files": [
+    "addon-main.cjs",
+    "declarations",
+    "dist"
+  ],
   "scripts": {
-    "build": "ember build --environment=production",
-    "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\"",
-    "lint:fix": "concurrently \"pnpm:lint:*:fix\" --names \"fix:\"",
-    "lint:hbs": "ember-template-lint .",
-    "lint:hbs:fix": "ember-template-lint . --fix",
+    "build": "rollup --config",
+    "format": "prettier . --cache --write",
+    "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
+    "lint:fix": "concurrently \"pnpm:lint:*:fix\" --names \"fix:\" --prefixColors auto && pnpm run format",
+    "lint:format": "prettier . --cache --check",
+    "lint:hbs": "ember-template-lint . --no-error-on-unmatched-pattern",
+    "lint:hbs:fix": "ember-template-lint . --fix --no-error-on-unmatched-pattern",
     "lint:js": "eslint . --cache",
-    "lint:js:fix": "eslint . --fix"
+    "lint:js:fix": "eslint . --fix",
+    "prepack": "rollup --config",
+    "start": "rollup --config --watch",
+    "test": "echo 'A v2 addon does not have tests, run tests in test-app'"
   },
   "dependencies": {
     "@babel/core": "^7.25.2",
+    "@embroider/addon-shim": "^1.8.9",
     "@embroider/macros": "^1.0.0",
     "@glimmer/tracking": "^1.1.2",
+    "decorator-transforms": "^2.2.2",
     "ember-auto-import": "^2.8.1",
     "ember-cli-babel": "^7.26.11",
     "validated-changeset": "~1.4.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.25.2",
     "@babel/eslint-parser": "^7.25.1",
-    "@babel/plugin-proposal-decorators": "^7.24.7",
-    "@ember/optional-features": "^2.1.0",
-    "@ember/string": "^3.0.1",
-    "@ember/test-helpers": "^3.3.1",
-    "@glimmer/component": "^1.1.2",
-    "@glimmer/tracking": "^1.1.2",
-    "broccoli-asset-rev": "^3.0.0",
-    "concurrently": "^8.2.2",
-    "ember-cli": "~5.12.0",
-    "ember-cli-clean-css": "^3.0.0",
-    "ember-cli-dependency-checker": "^3.3.2",
-    "ember-cli-htmlbars": "^6.3.0",
-    "ember-cli-inject-live-reload": "^2.1.0",
-    "ember-cli-sri": "^2.1.1",
-    "ember-cli-terser": "^4.0.2",
-    "ember-data": "~4.12.8",
-    "ember-load-initializers": "^2.1.2",
-    "ember-qunit": "^8.1.0",
-    "ember-resolver": "^12.0.1",
-    "ember-source": "~5.12.0",
+    "@babel/runtime": "^7.25.6",
+    "@embroider/addon-dev": "^7.1.0",
+    "@eslint/js": "^9.17.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "babel-plugin-ember-template-compilation": "^2.2.5",
+    "concurrently": "^9.0.1",
+    "ember-source": "^5.4.0",
     "ember-template-lint": "^6.0.0",
-    "eslint": "^8.57.1",
+    "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-ember": "^12.2.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-qunit": "^8.1.2",
-    "loader.js": "^4.7.0",
-    "prettier": "^3.3.3",
-    "qunit": "^2.22.0",
-    "qunit-dom": "^3.2.1"
+    "eslint-plugin-ember": "^12.3.3",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-n": "^17.15.1",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "prettier-plugin-ember-template-tag": "^2.0.4",
+    "rollup": "^4.22.5",
+    "rollup-plugin-copy": "^3.5.0"
   },
   "peerDependencies": {
     "ember-data": "*",
@@ -82,16 +83,17 @@
       "optional": true
     }
   },
-  "engines": {
-    "node": "18.* || 20.* || >= 22"
-  },
-  "volta": {
-    "extends": "../package.json"
-  },
   "ember": {
     "edition": "octane"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "version": 2,
+    "type": "addon",
+    "main": "addon-main.cjs",
+    "app-js": {
+      "./helpers/changeset-get.js": "./dist/_app_/helpers/changeset-get.js",
+      "./helpers/changeset-set.js": "./dist/_app_/helpers/changeset-set.js",
+      "./helpers/changeset.js": "./dist/_app_/helpers/changeset.js"
+    }
   }
 }

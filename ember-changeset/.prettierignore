@@ -3,11 +3,7 @@
 
 # compiled output
 /dist/
+/declarations/
 
 # misc
 /coverage/
-!.*
-.*/
-
-# ember-try
-/.node_modules.ember-try/

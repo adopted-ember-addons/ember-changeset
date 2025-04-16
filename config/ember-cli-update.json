@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectName": "ember-changeset",
+  "packages": [
+    {
+      "name": "@embroider/addon-blueprint",
+      "version": "4.1.1",
+      "blueprints": [
+        {
+          "name": "@embroider/addon-blueprint",
+          "isBaseBlueprint": true,
+          "options": [
+            "--ci-provider=github",
+            "--pnpm"
+          ]
+        }
+      ]
+    }
+  ]
+}

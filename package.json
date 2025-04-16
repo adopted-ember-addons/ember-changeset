@@ -1,24 +1,23 @@
 {
   "private": true,
-  "repository": "https://github.com/adopted-ember-addons/ember-changeset",
+  "repository": "",
   "license": "MIT",
-  "author": "Lauren Tan <arr@sugarpirate.com>",
+  "author": "",
   "scripts": {
-    "contributors": "pnpm dlx contributor-faces -e \"(*-bot|*\\[bot\\]|*-tomster|homu|bors)\"",
+    "build": "pnpm --filter ember-changeset build",
     "lint": "pnpm --filter '*' lint",
     "lint:fix": "pnpm --filter '*' lint:fix",
+    "prepare": "pnpm build",
+    "start": "concurrently 'pnpm:start:*' --restart-after 5000 --prefixColors auto",
+    "start:addon": "pnpm --filter ember-changeset start --no-watch.clearScreen",
+    "start:test-app": "pnpm --filter test-app start",
     "test": "pnpm --filter '*' test",
     "test:ember": "pnpm --filter '*' test:ember"
   },
+  "packageManager": "pnpm@10.0.0",
   "devDependencies": {
-    "concurrently": "^9.1.0",
-    "prettier": "^3.3.3",
-    "prettier-plugin-ember-template-tag": "^2.0.2",
-    "release-plan": "^0.10.0"
-  },
-  "packageManager": "pnpm@9.12.3",
-  "volta": {
-    "node": "18.20.4",
-    "pnpm": "9.12.3"
+    "concurrently": "^9.1.2",
+    "prettier": "^3.0.3",
+    "prettier-plugin-ember-template-tag": "^2.0.2"
   }
 }

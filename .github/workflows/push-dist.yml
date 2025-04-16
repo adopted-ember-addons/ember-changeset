@@ -20,8 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-      - name: Install Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: pnpm
@@ -31,4 +30,4 @@ jobs:
         with:
           branch: dist
           token: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: 'test-app'
+          working-directory: 'ember-changeset'

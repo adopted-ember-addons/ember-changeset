@@ -1,11 +1,9 @@
 import { assert } from '@ember/debug';
 import { dependentKeyCompat } from '@ember/object/compat';
-import { ValidationChangeset, getKeyValues } from 'validated-changeset';
+import { BufferedChangeset } from 'validated-changeset';
 import ArrayProxy from '@ember/array/proxy';
 import ObjectProxy from '@ember/object/proxy';
 import { notifyPropertyChange } from '@ember/object';
-import mergeDeep from './utils/merge-deep';
-import isObject from './utils/is-object';
 import { tracked } from '@glimmer/tracking';
 import { get as safeGet, set as safeSet } from '@ember/object';
 import {
@@ -14,9 +12,17 @@ import {
   importSync,
 } from '@embroider/macros';
 
+export { ValidatedChangeset };
+export { default as changesetGet } from './helpers/changeset-get.js';
+export { default as changesetSet } from './helpers/changeset-set.js';
+import mergeDeep from './utils/merge-deep.js';
+import isObject from './utils/is-object.js';
+import { Changeset as ValidatedChangeset } from './validated-changeset.js';
+
 const CHANGES = '_changes';
 const PREVIOUS_CONTENT = '_previousContent';
 const CONTENT = '_content';
+const defaultValidatorFn = () => true;
 
 export function buildOldValues(content, changes, getDeep) {
   const obj = Object.create(null);
@@ -33,7 +39,7 @@ function isProxy(o) {
 }
 
 function maybeUnwrapProxy(o) {
-  return isProxy(o) ? maybeUnwrapProxy(safeGet(o, 'content')) : o;
+  return isProxy(o) ? maybeUnwrapProxy(o.content) : o;
 }
 
 let Model;
@@ -41,7 +47,7 @@ if (macroCondition(dependencySatisfies('ember-data', '*'))) {
   Model = importSync('@ember-data/model').default;
 }
 
-export class EmberValidationChangeset extends ValidationChangeset {
+export class EmberChangeset extends BufferedChangeset {
   @tracked _changes;
   @tracked _errors;
   @tracked _content;
@@ -131,6 +137,28 @@ export class EmberValidationChangeset extends ValidationChangeset {
   }
 
   /**
+   * Manually remove an error from the changeset.
+   *
+   * @method removeError
+   */
+  removeError(key) {
+    super.removeError(key);
+
+    notifyPropertyChange(this, key);
+    return this;
+  }
+
+  /**
+   * Manually clears the errors from the changeset
+   *
+   * @method removeError
+   */
+  removeErrors() {
+    super.removeErrors();
+    return this;
+  }
+
+  /**
    * Manually push multiple errors to the changeset as an array.
    *
    * @method pushErrors
@@ -192,7 +220,7 @@ export class EmberValidationChangeset extends ValidationChangeset {
       let changes = this[CHANGES];
 
       // keep old values in case of error and we want to rollback
-      oldContent = buildOldValues(content, getKeyValues(changes), this.getDeep);
+      oldContent = buildOldValues(content, this.changes, this.getDeep);
 
       // we want mutation on original object
       // @tracked
@@ -208,14 +236,23 @@ export class EmberValidationChangeset extends ValidationChangeset {
 /**
  * Creates new changesets.
  */
-export function changeset(obj) {
+export function changeset(
+  obj,
+  validateFn = defaultValidatorFn,
+  validationMap = {},
+  options = {},
+) {
   assert('Underlying object for changeset is missing', Boolean(obj));
   assert(
     'Array is not a valid type to pass as the first argument to `changeset`',
     !Array.isArray(obj),
   );
 
-  const c = new EmberValidationChangeset(obj);
+  if (options.changeset) {
+    return new options.changeset(obj, validateFn, validationMap, options);
+  }
+
+  const c = new EmberChangeset(obj, validateFn, validationMap, options);
   return c;
 }
 
@@ -223,8 +260,13 @@ export function changeset(obj) {
  * Creates new changesets.
  * @function Changeset
  */
-export function Changeset(obj) {
-  const c = changeset(obj);
+export function Changeset(
+  obj,
+  validateFn = defaultValidatorFn,
+  validationMap = {},
+  options = {},
+) {
+  const c = changeset(obj, validateFn, validationMap, options);
 
   return new Proxy(c, {
     get(targetBuffer, key /*, receiver*/) {
@@ -237,4 +279,34 @@ export function Changeset(obj) {
       return true;
     },
   });
+}
+
+export default class ChangesetKlass {
+  /**
+   * Changeset factory
+   * TODO: deprecate in favor of factory function
+   *
+   * @class ChangesetKlass
+   * @constructor
+   */
+  constructor(
+    obj,
+    validateFn = defaultValidatorFn,
+    validationMap = {},
+    options = {},
+  ) {
+    const c = changeset(obj, validateFn, validationMap, options);
+
+    return new Proxy(c, {
+      get(targetBuffer, key /*, receiver*/) {
+        const res = targetBuffer.get(key.toString());
+        return res;
+      },
+
+      set(targetBuffer, key, value /*, receiver*/) {
+        targetBuffer.set(key.toString(), value);
+        return true;
+      },
+    });
+  }
 }

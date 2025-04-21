@@ -14,7 +14,7 @@
     "concurrently": "^9.1.0",
     "prettier": "^3.3.3",
     "prettier-plugin-ember-template-tag": "^2.0.2",
-    "release-plan": "^0.10.0"
+    "release-plan": "^0.16.0"
   },
   "packageManager": "pnpm@9.12.3",
   "volta": {

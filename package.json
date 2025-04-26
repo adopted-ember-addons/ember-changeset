@@ -17,6 +17,11 @@
     "release-plan": "^0.16.0"
   },
   "packageManager": "pnpm@9.12.3",
+  "pnpm": {
+    "overrides": {
+      "@embroider/macros": "1.16.11"
+    }
+  },
   "volta": {
     "node": "18.20.4",
     "pnpm": "9.12.3"

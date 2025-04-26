@@ -1,3 +1,6 @@
 packages:
   - 'ember-changeset'
   - 'test-app'
+overrides:
+  # https://github.com/embroider-build/embroider/issues/2440
+  "@embroider/macros": "1.16.11"

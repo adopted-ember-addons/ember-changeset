@@ -48,8 +48,6 @@ jobs:
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --no-lockfile
-      - name: pnpm why -r @embroider/macros
-        run: pnpm why -r @embroider/macros
       - name: Run Tests
         run: pnpm test:ember
         working-directory: test-app

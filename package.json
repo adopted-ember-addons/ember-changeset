@@ -1,29 +1,149 @@
 {
-  "private": true,
+  "name": "ember-changeset",
+  "version": "4.2.0",
+  "description": "Changesets for Ember",
+  "keywords": [
+    "ember-addon",
+    "changeset"
+  ],
+  "homepage": "https://github.com/adopted-ember-addons/ember-changeset",
+  "bugs": "https://github.com/adopted-ember-addons/ember-changeset/issues",
   "repository": "https://github.com/adopted-ember-addons/ember-changeset",
   "license": "MIT",
   "author": "Lauren Tan <arr@sugarpirate.com>",
-  "scripts": {
-    "contributors": "pnpm dlx contributor-faces -e \"(*-bot|*\\[bot\\]|*-tomster|homu|bors)\"",
-    "lint": "pnpm --filter '*' lint",
-    "lint:fix": "pnpm --filter '*' lint:fix",
-    "test": "pnpm --filter '*' test",
-    "test:ember": "pnpm --filter '*' test:ember"
+  "contributors": [
+    {
+      "name": "Scott Newcomer",
+      "url": "https://github.com/snewcomer"
+    }
+  ],
+  "exports": {
+    ".": {
+      "types": "./declarations/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./validators": {
+      "types": "./declarations/validators/index.d.ts",
+      "default": "./dist/validators/index.js"
+    },
+    "./*": {
+      "types": "./declarations/*.d.ts",
+      "default": "./dist/*.js"
+    },
+    "./addon-main.js": "./addon-main.cjs"
   },
-  "devDependencies": {
-    "concurrently": "^9.1.0",
-    "prettier": "^3.3.3",
-    "prettier-plugin-ember-template-tag": "^2.0.2",
-    "release-plan": "^0.16.0"
-  },
-  "packageManager": "pnpm@9.12.3",
-  "pnpm": {
-    "overrides": {
-      "@embroider/macros": "1.16.11"
+  "typesVersions": {
+    "*": {
+      "*": [
+        "declarations/*"
+      ]
     }
   },
+  "files": [
+    "addon-main.cjs",
+    "declarations",
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup --config",
+    "format": "prettier . --cache --write",
+    "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
+    "lint:fix": "concurrently \"pnpm:lint:*:fix\" --names \"fix:\" --prefixColors auto && pnpm run format",
+    "lint:format": "prettier . --cache --check",
+    "lint:hbs": "ember-template-lint . --no-error-on-unmatched-pattern",
+    "lint:hbs:fix": "ember-template-lint . --fix --no-error-on-unmatched-pattern",
+    "lint:js": "eslint . --cache",
+    "lint:js:fix": "eslint . --fix",
+    "lint:types": "glint",
+    "prepare": "rollup --config",
+    "prepublishOnly": "rollup --config",
+    "start": "concurrently 'pnpm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
+    "start:build": "rollup --config --watch",
+    "start:test-app": "pnpm --filter=test-app start",
+    "test": "concurrently \"pnpm:lint:*(!fix)\" \"pnpm:test:*\"",
+    "test:ember": "pnpm run --filter=test-app test:ember",
+    "test:ember-compatibility": "pnpm --filter=test-app test:ember-compatibility"
+  },
+  "dependencies": {
+    "@embroider/addon-shim": "^1.9.0",
+    "@embroider/macros": "^1.0.0",
+    "decorator-transforms": "^2.2.2",
+    "validated-changeset": "~1.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/eslint-parser": "^7.27.0",
+    "@babel/plugin-transform-typescript": "^7.27.0",
+    "@babel/runtime": "^7.27.0",
+    "@ember-data/model": "~4.12.8",
+    "@ember/string": "^3.1.1",
+    "@embroider/addon-dev": "^7.1.3",
+    "@eslint/js": "^9.23.0",
+    "@glimmer/tracking": "^1.1.2",
+    "@glint/core": "^1.5.2",
+    "@glint/environment-ember-loose": "^1.5.2",
+    "@glint/environment-ember-template-imports": "^1.5.2",
+    "@glint/template": "^1.5.2",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@tsconfig/ember": "^3.0.8",
+    "babel-plugin-ember-template-compilation": "^2.2.5",
+    "concurrently": "^9.0.1",
+    "ember-data": "~4.12.8",
+    "ember-source": "^6.3.0",
+    "ember-template-lint": "^7.0.1",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-ember": "^12.5.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-n": "^17.17.0",
+    "eslint-plugin-qunit": "^8.1.2",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-ember-template-tag": "^2.0.4",
+    "release-plan": "^0.16.0",
+    "rollup": "^4.37.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "typescript": "~5.8.2",
+    "typescript-eslint": "^8.28.0",
+    "webpack": "^5.99.5"
+  },
+  "peerDependencies": {
+    "@ember-data/model": "*",
+    "ember-data": "*",
+    "ember-source": ">=4.8.0"
+  },
+  "peerDependenciesMeta": {
+    "@ember-data/model": {
+      "optional": true
+    },
+    "ember-data": {
+      "optional": true
+    }
+  },
+  "packageManager": "pnpm@10.7.0",
+  "pnpm": {
+    "overrides": {
+      "@embroider/macros": "1.16.13"
+    },
+    "onlyBuiltDependencies": [
+      "core-js"
+    ]
+  },
   "volta": {
-    "node": "18.20.4",
+    "node": "22.14.0",
     "pnpm": "10.9.0"
+  },
+  "ember": {
+    "edition": "octane"
+  },
+  "ember-addon": {
+    "version": 2,
+    "type": "addon",
+    "main": "addon-main.cjs",
+    "app-js": {
+      "./helpers/changeset-get.js": "./dist/_app_/helpers/changeset-get.js",
+      "./helpers/changeset-set.js": "./dist/_app_/helpers/changeset-set.js",
+      "./helpers/changeset.js": "./dist/_app_/helpers/changeset.js"
+    }
   }
 }

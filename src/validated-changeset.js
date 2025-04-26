@@ -4,8 +4,8 @@ import { ValidationChangeset, getKeyValues } from 'validated-changeset';
 import ArrayProxy from '@ember/array/proxy';
 import ObjectProxy from '@ember/object/proxy';
 import { notifyPropertyChange } from '@ember/object';
-import mergeDeep from './utils/merge-deep';
-import isObject from './utils/is-object';
+import mergeDeep from './utils/merge-deep.js';
+import isObject from './utils/is-object.js';
 import { tracked } from '@glimmer/tracking';
 import { get as safeGet, set as safeSet } from '@ember/object';
 import {

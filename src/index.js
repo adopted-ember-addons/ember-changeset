@@ -1,12 +1,12 @@
 import { assert } from '@ember/debug';
 import { dependentKeyCompat } from '@ember/object/compat';
 import { BufferedChangeset } from 'validated-changeset';
-import { Changeset as ValidatedChangeset } from './validated-changeset';
+import { Changeset as ValidatedChangeset } from './validated-changeset.js';
 import ArrayProxy from '@ember/array/proxy';
 import ObjectProxy from '@ember/object/proxy';
 import { notifyPropertyChange } from '@ember/object';
-import mergeDeep from './utils/merge-deep';
-import isObject from './utils/is-object';
+import mergeDeep from './utils/merge-deep.js';
+import isObject from './utils/is-object.js';
 import { tracked } from '@glimmer/tracking';
 import { get as safeGet, set as safeSet } from '@ember/object';
 import {
@@ -16,8 +16,8 @@ import {
 } from '@embroider/macros';
 
 export { ValidatedChangeset };
-export { default as changesetGet } from './helpers/changeset-get';
-export { default as changesetSet } from './helpers/changeset-set';
+export { default as changesetGet } from './helpers/changeset-get.js';
+export { default as changesetSet } from './helpers/changeset-set.js';
 
 const CHANGES = '_changes';
 const PREVIOUS_CONTENT = '_previousContent';

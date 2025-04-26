@@ -31,4 +31,3 @@ jobs:
         with:
           branch: dist
           token: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: 'test-app'

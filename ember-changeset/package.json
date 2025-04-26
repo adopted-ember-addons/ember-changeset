@@ -75,7 +75,7 @@
   },
   "peerDependencies": {
     "ember-data": "*",
-    "ember-source": ">=3.20.0"
+    "ember-source": ">= 4.8.0"
   },
   "peerDependenciesMeta": {
     "ember-data": {

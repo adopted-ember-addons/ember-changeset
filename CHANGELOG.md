@@ -1,5 +1,25 @@
 # Changelog
 
+## Release (2025-04-27)
+
+* ember-changeset 5.0.0 (major)
+
+#### :boom: Breaking Change
+* `ember-changeset`
+  * [#706](https://github.com/adopted-ember-addons/ember-changeset/pull/706) Drop support for Ember.js versions below 4.8 ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### :rocket: Enhancement
+* `ember-changeset`
+  * [#705](https://github.com/adopted-ember-addons/ember-changeset/pull/705) Convert addon to v2 format ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### :house: Internal
+* `ember-changeset`
+  * [#703](https://github.com/adopted-ember-addons/ember-changeset/pull/703) Bump pnpm to v10 ([@SergeAstapov](https://github.com/SergeAstapov))
+  * [#701](https://github.com/adopted-ember-addons/ember-changeset/pull/701) Bump release-plan to v0.16 ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### Committers: 1
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+
 ## Release (2025-03-25)
 
 ember-changeset 4.2.0 (minor)

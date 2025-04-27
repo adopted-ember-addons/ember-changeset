@@ -27,9 +27,10 @@ jobs:
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+      - name: Second Install for proper injected
+        run: pnpm install --frozen-lockfile
       - name: Lint
         run: pnpm lint
-        working-directory: test-app
       - name: Run Tests
         run: pnpm test:ember
         working-directory: test-app
@@ -48,9 +49,10 @@ jobs:
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --no-lockfile
+      - name: Second Install for proper injected
+        run: pnpm install --no-lockfile
       - name: Run Tests
         run: pnpm test:ember
-        working-directory: test-app
 
   try-scenarios:
     name: ${{ matrix.try-scenario }}
@@ -70,9 +72,9 @@ jobs:
           - ember-release
           - ember-beta
           - ember-canary
-# @todo uncomment once Ember Data bumped to => 5.3
-#          - embroider-safe
-#          - embroider-optimized
+    # @todo uncomment once Ember Data bumped to => 5.3
+    #          - embroider-safe
+    #          - embroider-optimized
 
     steps:
       - uses: actions/checkout@v4
@@ -83,6 +85,8 @@ jobs:
           node-version: 18
           cache: pnpm
       - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Second Install for proper injected
         run: pnpm install --frozen-lockfile
       - name: Run Tests
         run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }} --skip-cleanup

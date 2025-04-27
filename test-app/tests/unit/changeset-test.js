@@ -279,7 +279,7 @@ module('Unit | Utility | changeset', function (hooks) {
 
     try {
       set(dummyChangeset, 'data', { foo: 'bar' });
-    } catch ({ message }) {
+    } catch {
       assert.throws(
         ({ message }) =>
           message ===
@@ -1540,7 +1540,7 @@ module('Unit | Utility | changeset', function (hooks) {
       dummyChangeset.prepare(() => {
         return 'foo';
       });
-    } catch ({ message }) {
+    } catch {
       assert.throws(
         ({ message }) =>
           message ===
@@ -2208,7 +2208,7 @@ module('Unit | Utility | changeset', function (hooks) {
 
     try {
       dummyChangesetA.merge(dummyChangesetB);
-    } catch ({ message }) {
+    } catch {
       assert.throws(
         ({ message }) =>
           message === 'Assertion Failed: Cannot merge with a non-changeset',
@@ -2225,7 +2225,7 @@ module('Unit | Utility | changeset', function (hooks) {
 
     try {
       dummyChangesetA.merge(dummyChangesetB);
-    } catch ({ message }) {
+    } catch {
       assert.throws(
         ({ message }) =>
           message ===
@@ -2952,7 +2952,6 @@ module('Unit | Utility | changeset', function (hooks) {
 
     Object.defineProperty(myChangeset, 'isOptionSelected', {
       get() {
-        // eslint-disable-next-line ember/no-get
         return (
           this.get('isOptionOne') ||
           this.get('isOptionTwo') ||

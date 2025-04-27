@@ -1,3 +1,3 @@
 packages:
-  - 'ember-changeset'
-  - 'test-app'
+  - .
+  - test-app

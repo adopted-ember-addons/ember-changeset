@@ -1,0 +1,79 @@
+{
+  "name": "test-app",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Small description for test-app goes here",
+  "repository": "",
+  "license": "MIT",
+  "author": "",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "ember build --environment=production",
+    "start": "ember serve",
+    "test": "concurrently 'pnpm:test:*'",
+    "test:ember": "ember test",
+    "test:ember-compatibility": "ember try:each"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/plugin-proposal-decorators": "^7.25.9",
+    "@ember/optional-features": "^2.2.0",
+    "@ember/string": "^3.1.1",
+    "@ember/test-helpers": "^5.1.0",
+    "@embroider/compat": "^3.4.8",
+    "@embroider/core": "^3.4.8",
+    "@embroider/macros": "^1.16.13",
+    "@embroider/test-setup": "^4.0.0",
+    "@embroider/webpack": "^4.0.0",
+    "@glimmer/component": "^1.1.2",
+    "@glimmer/tracking": "^1.1.2",
+    "@glint/environment-ember-loose": "^1.5.2",
+    "@glint/environment-ember-template-imports": "^1.5.2",
+    "@glint/template": "^1.5.2",
+    "@tsconfig/ember": "^3.0.10",
+    "@types/qunit": "^2.19.12",
+    "@types/rsvp": "^4.0.9",
+    "broccoli-asset-rev": "^3.0.0",
+    "concurrently": "^9.1.2",
+    "ember-auto-import": "^2.10.0",
+    "ember-changeset": "workspace:*",
+    "ember-cli": "~6.3.1",
+    "ember-cli-babel": "^8.2.0",
+    "ember-cli-deprecation-workflow": "^3.3.0",
+    "ember-cli-htmlbars": "^6.3.0",
+    "ember-cli-inject-live-reload": "^2.1.0",
+    "ember-cli-sri": "^2.1.1",
+    "ember-cli-terser": "^4.0.2",
+    "ember-data": "~4.12.8",
+    "ember-load-initializers": "^3.0.1",
+    "ember-qunit": "^9.0.1",
+    "ember-try": "^4.0.0",
+    "ember-resolver": "^13.1.0",
+    "ember-source": "~6.3.0",
+    "ember-template-imports": "^4.3.0",
+    "loader.js": "^4.7.0",
+    "qunit": "^2.24.1",
+    "qunit-dom": "^3.4.0",
+    "scenario-tester": "^2.1.2",
+    "typescript": "^5.8.2",
+    "webpack": "^5.99.5",
+    "yup": "^1.6.1"
+  },
+  "dependenciesMeta": {
+    "ember-changeset": {
+      "injected": true
+    }
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "volta": {
+    "extends": "../package.json"
+  },
+  "ember": {
+    "edition": "octane"
+  }
+}

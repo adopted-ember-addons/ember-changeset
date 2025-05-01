@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-05-01)
+
+* ember-changeset 5.0.1 (patch)
+
+#### :house: Internal
+* `ember-changeset`
+  * [#707](https://github.com/adopted-ember-addons/ember-changeset/pull/707) format changelog with prettier ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### Committers: 1
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+
 ## Release (2025-04-27)
 
 - ember-changeset 5.0.0 (major)

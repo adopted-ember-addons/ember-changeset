@@ -1,19 +1,11 @@
 {
   "solution": {
     "ember-changeset": {
-      "impact": "major",
-      "oldVersion": "4.2.0",
-      "newVersion": "5.0.0",
+      "impact": "patch",
+      "oldVersion": "5.0.0",
+      "newVersion": "5.0.1",
       "tagName": "latest",
       "constraints": [
-        {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
         {
           "impact": "patch",
           "reason": "Appears in changelog section :house: Internal"
@@ -22,5 +14,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-04-27)\n\n* ember-changeset 5.0.0 (major)\n\n#### :boom: Breaking Change\n* `ember-changeset`\n  * [#706](https://github.com/adopted-ember-addons/ember-changeset/pull/706) Drop support for Ember.js versions below 4.8 ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### :rocket: Enhancement\n* `ember-changeset`\n  * [#705](https://github.com/adopted-ember-addons/ember-changeset/pull/705) Convert addon to v2 format ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### :house: Internal\n* `ember-changeset`\n  * [#703](https://github.com/adopted-ember-addons/ember-changeset/pull/703) Bump pnpm to v10 ([@SergeAstapov](https://github.com/SergeAstapov))\n  * [#701](https://github.com/adopted-ember-addons/ember-changeset/pull/701) Bump release-plan to v0.16 ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### Committers: 1\n- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))\n"
+  "description": "## Release (2025-05-01)\n\n* ember-changeset 5.0.1 (patch)\n\n#### :house: Internal\n* `ember-changeset`\n  * [#707](https://github.com/adopted-ember-addons/ember-changeset/pull/707) format changelog with prettier ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### Committers: 1\n- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))\n"
 }

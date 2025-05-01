@@ -8,3 +8,6 @@
 # misc
 /coverage/
 /pnpm-lock.yaml
+
+# it's now edit with release-plan, so no manual formatting/validating needed
+/CHANGELOG.md

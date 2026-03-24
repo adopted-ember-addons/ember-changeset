@@ -234,7 +234,19 @@ export class EmberChangeset extends BufferedChangeset {
 }
 
 /**
+ * @typedef {import('validated-changeset').BufferedChangeset} BufferedChangeset
+ * @typedef {ConstructorParameters<typeof BufferedChangeset>} BufferedChangesetConstructorParameters;
+ * @typedef {BufferedChangesetConstructorParameters[3] & { changeset?: typeof EmberChangeset;}} Config;
+ */
+
+/**
  * Creates new changesets.
+ *
+ * @param {BufferedChangesetConstructorParameters[0]} obj
+ * @param {BufferedChangesetConstructorParameters[1]} [validateFn=defaultValidatorFn]
+ * @param {BufferedChangesetConstructorParameters[2]} [validationMap={}]
+ * @param {Config} [options={}]
+ * @returns {EmberChangeset}
  */
 export function changeset(
   obj,
@@ -259,6 +271,12 @@ export function changeset(
 /**
  * Creates new changesets.
  * @function Changeset
+ *
+ * @param {BufferedChangesetConstructorParameters[0]} obj
+ * @param {BufferedChangesetConstructorParameters[1]} [validateFn=defaultValidatorFn]
+ * @param {BufferedChangesetConstructorParameters[2]} [validationMap={}]
+ * @param {Config} [options={}]
+ * @returns {EmberChangeset}
  */
 export function Changeset(
   obj,

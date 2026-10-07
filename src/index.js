@@ -7,6 +7,7 @@ import ObjectProxy from '@ember/object/proxy';
 import { notifyPropertyChange } from '@ember/object';
 import mergeDeep from './utils/merge-deep.js';
 import isObject from './utils/is-object.js';
+import proxyHandler from './utils/proxy-handler.js';
 import { tracked } from '@glimmer/tracking';
 import { get as safeGet, set as safeSet } from '@ember/object';
 import {
@@ -64,7 +65,13 @@ export class EmberChangeset extends BufferedChangeset {
   mergeDeep = mergeDeep;
 
   safeGet(obj, key) {
-    if (Model && obj.relationshipFor?.(key)?.meta?.kind == 'belongsTo') {
+    if (
+      Model &&
+      obj !== null &&
+      typeof obj === 'object' &&
+      'relationshipFor' in obj &&
+      obj.relationshipFor(key)?.meta?.kind == 'belongsTo'
+    ) {
       return obj.belongsTo(key).value();
     }
     return safeGet(obj, key);
@@ -268,17 +275,7 @@ export function Changeset(
 ) {
   const c = changeset(obj, validateFn, validationMap, options);
 
-  return new Proxy(c, {
-    get(targetBuffer, key /*, receiver*/) {
-      const res = targetBuffer.get(key.toString());
-      return res;
-    },
-
-    set(targetBuffer, key, value /*, receiver*/) {
-      targetBuffer.set(key.toString(), value);
-      return true;
-    },
-  });
+  return new Proxy(c, proxyHandler);
 }
 
 export default class ChangesetKlass {
@@ -297,16 +294,6 @@ export default class ChangesetKlass {
   ) {
     const c = changeset(obj, validateFn, validationMap, options);
 
-    return new Proxy(c, {
-      get(targetBuffer, key /*, receiver*/) {
-        const res = targetBuffer.get(key.toString());
-        return res;
-      },
-
-      set(targetBuffer, key, value /*, receiver*/) {
-        targetBuffer.set(key.toString(), value);
-        return true;
-      },
-    });
+    return new Proxy(c, proxyHandler);
   }
 }

@@ -59,7 +59,13 @@ export class EmberValidationChangeset extends ValidationChangeset {
   mergeDeep = mergeDeep;
 
   safeGet(obj, key) {
-    if (Model && obj.relationshipFor?.(key)?.meta?.kind == 'belongsTo') {
+    if (
+      Model &&
+      obj !== null &&
+      typeof obj === 'object' &&
+      'relationshipFor' in obj &&
+      obj.relationshipFor(key)?.meta?.kind == 'belongsTo'
+    ) {
       return obj.belongsTo(key).value();
     }
     return safeGet(obj, key);
